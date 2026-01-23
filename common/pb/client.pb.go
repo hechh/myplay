@@ -100,7 +100,7 @@ func (x *AuthReq) GetPlatform() Platform {
 	if x != nil {
 		return x.Platform
 	}
-	return Platform_PlatformNone
+	return Platform_PlatformTypeNone
 }
 
 func (x *AuthReq) GetLoginType() LoginType {

@@ -6,7 +6,7 @@ option go_package = "./pb";
 
 import "enum.gen.proto";
 
-// @dbtool:string|REDIS_DB_ACCOUNT|session:Uid@uint64|#玩家会话信息
+// @dbtool:string|myplay|session:Uid@uint64|#玩家会话信息
 message SessionData {
   uint64   uid        = 1; // 用户ID
   string   name       = 2; // 昵称

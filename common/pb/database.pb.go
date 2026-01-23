@@ -21,7 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// @dbtool:string|REDIS_DB_ACCOUNT|session:Uid@uint64|#玩家会话信息
+// @dbtool:string|myplay|session:Uid@uint64|#玩家会话信息
 type SessionData struct {
 	state         protoimpl.MessageState `xorm:"-"` 
 	Uid           uint64                 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`                                // 用户ID
@@ -111,7 +111,7 @@ func (x *SessionData) GetPlatform() Platform {
 	if x != nil {
 		return x.Platform
 	}
-	return Platform_PlatformNone
+	return Platform_PlatformTypeNone
 }
 
 // 玩家账号数据
@@ -221,7 +221,7 @@ func (x *AccountData) GetPlatform() Platform {
 	if x != nil {
 		return x.Platform
 	}
-	return Platform_PlatformNone
+	return Platform_PlatformTypeNone
 }
 
 func (x *AccountData) GetLoginType() LoginType {
