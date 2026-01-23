@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package myplay;
+
+option go_package = "./pb";
+
+import "enum.gen.proto";
+
+// @dbtool:string|REDIS_DB_ACCOUNT|session:Uid@uint64|#玩家会话信息
+message SessionData {
+  uint64   uid        = 1; // 用户ID
+  string   name       = 2; // 昵称
+  int64    login_time = 4; // 创建时间
+  string   login_ip   = 5; // 客户端IP
+  string   version    = 6; // 版本
+  string   device_id  = 7; // 设备id
+  Platform platform   = 8; // 登录平台
+}
+
+// 玩家账号数据
+message AccountData {
+  int64     id          = 1; // @inject_tag: xorm:"bigint autoincr pk comment('数据库唯一id')"
+  uint64    uid         = 2; // @inject_tag: xorm:"bigint index notnull comment('玩家uid')"
+  string    name        = 3; // @inject_tag: xorm:"varchar(25) index comment('用户名')"
+  string    email       = 4; // @inject_tag: xorm:"varchar(50) index comment('邮箱')"
+  string    phone       = 5; // @inject_tag: xorm:"varchar(16) index comment('手机号')"
+  string    password    = 6; // @inject_tag: xorm:"varbinary(255) comment('密码hash值')"
+  string    secret_key  = 7; // @inject_tag: xorm:"varbinary(32) comment('密码随机密钥')"
+  int64     create_time = 8; // @inject_tag: xorm:"bigint comment('创建时间')"
+  Platform  platform    = 9; // @inject_tag: xorm:"int index comment('注册平台')"
+  LoginType login_type  = 10; // @inject_tag: xorm:"int index comment('登录类型')"
+}

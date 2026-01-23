@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package myplay;
+
+option go_package = "./pb";
+
+enum ErrorCode {
+    Success = 0; // 成功
+}

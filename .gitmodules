@@ -1,0 +1,12 @@
+[submodule "framework"]
+	path = framework
+	url = git@github.com:hechh/framework.git
+	branch = develop
+[submodule "library"]
+	path = library
+	url = git@github.com:hechh/library.git
+	branch = develop
+[submodule "tools"]
+	path = tools
+	url = git@github.com:hechh/tools.git
+	branch = develop
