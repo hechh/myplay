@@ -24,15 +24,9 @@ nats:
   topic: poker_server/local/nats
   endpoints: localhost:14222
 
-table:
-  is_remote: false
-  ext: .conf
-  path: ./data
-  endpoints:
-    - http://localhost:12379
-
 common:
-  env: develop #develop, beta, release
+  mode: debug #debug develop release
+  table_path: /Users/hch/project/src/myplay/configure/data
   is_open_pprof: true
   token_key: gH7%kL9!qW2#sD4*FpV6&nZ8@xJ0^yT1
   aes_key: 1234567890123456

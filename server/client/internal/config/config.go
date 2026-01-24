@@ -15,18 +15,12 @@ var (
 	ClientCfg *ClientConfig
 )
 
-type CommonConfig struct {
-	yaml.CommonConfig
-	TokenKey string `yaml:"token_key"`
-	AesKey   string `yaml:"aes_key"`
-}
-
 type ClientConfig struct {
 	Mysql  map[int32]*yaml.DbConfig   `yaml:"mysql"`
 	Redis  map[int32]*yaml.DbConfig   `yaml:"redis"`
 	Etcd   *yaml.EtcdConfig           `yaml:"etcd"`
 	Nats   *yaml.NatsConfig           `yaml:"nats"`
-	Common *CommonConfig              `yaml:"common"`
+	Common *yaml.CommonConfig         `yaml:"common"`
 	Server map[int32]*yaml.NodeConfig `yaml:"client"`
 }
 
