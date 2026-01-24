@@ -199,12 +199,276 @@ func (x *AuthRsp) GetToken() string {
 	return ""
 }
 
+// 登录协议
+type LoginReq struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Data          *PlayerData            `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *LoginReq) Reset() {
+	*x = LoginReq{}
+	mi := &file_client_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginReq) ProtoMessage() {}
+
+func (x *LoginReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginReq.ProtoReflect.Descriptor instead.
+func (*LoginReq) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *LoginReq) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+func (x *LoginReq) GetData() *PlayerData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type LoginRsp struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	Head          *packet.RspHead        `protobuf:"bytes,1,opt,name=head,proto3" json:"head,omitempty"`
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *LoginRsp) Reset() {
+	*x = LoginRsp{}
+	mi := &file_client_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginRsp) ProtoMessage() {}
+
+func (x *LoginRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginRsp.ProtoReflect.Descriptor instead.
+func (*LoginRsp) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *LoginRsp) GetHead() *packet.RspHead {
+	if x != nil {
+		return x.Head
+	}
+	return nil
+}
+
+// 提出玩家
+type KickNotify struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	Uid           uint64                 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	LoginTime     int64                  `protobuf:"varint,2,opt,name=login_time,json=loginTime,proto3" json:"login_time,omitempty"`
+	NodeId        uint32                 `protobuf:"varint,3,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *KickNotify) Reset() {
+	*x = KickNotify{}
+	mi := &file_client_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KickNotify) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KickNotify) ProtoMessage() {}
+
+func (x *KickNotify) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KickNotify.ProtoReflect.Descriptor instead.
+func (*KickNotify) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *KickNotify) GetUid() uint64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+func (x *KickNotify) GetLoginTime() int64 {
+	if x != nil {
+		return x.LoginTime
+	}
+	return 0
+}
+
+func (x *KickNotify) GetNodeId() uint32 {
+	if x != nil {
+		return x.NodeId
+	}
+	return 0
+}
+
+// 心跳协议
+type HeartReq struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *HeartReq) Reset() {
+	*x = HeartReq{}
+	mi := &file_client_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HeartReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeartReq) ProtoMessage() {}
+
+func (x *HeartReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeartReq.ProtoReflect.Descriptor instead.
+func (*HeartReq) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{5}
+}
+
+type HeartRsp struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	Head          *packet.RspHead        `protobuf:"bytes,1,opt,name=head,proto3" json:"head,omitempty"`                             // 协议头
+	Utc           int64                  `protobuf:"varint,2,opt,name=utc,proto3" json:"utc,omitempty"`                              // UTC时区
+	BeginTime     int64                  `protobuf:"varint,3,opt,name=begin_time,json=beginTime,proto3" json:"begin_time,omitempty"` // 请求时间
+	EndTime       int64                  `protobuf:"varint,4,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`       // 响应时间
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *HeartRsp) Reset() {
+	*x = HeartRsp{}
+	mi := &file_client_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HeartRsp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeartRsp) ProtoMessage() {}
+
+func (x *HeartRsp) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeartRsp.ProtoReflect.Descriptor instead.
+func (*HeartRsp) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *HeartRsp) GetHead() *packet.RspHead {
+	if x != nil {
+		return x.Head
+	}
+	return nil
+}
+
+func (x *HeartRsp) GetUtc() int64 {
+	if x != nil {
+		return x.Utc
+	}
+	return 0
+}
+
+func (x *HeartRsp) GetBeginTime() int64 {
+	if x != nil {
+		return x.BeginTime
+	}
+	return 0
+}
+
+func (x *HeartRsp) GetEndTime() int64 {
+	if x != nil {
+		return x.EndTime
+	}
+	return 0
+}
+
 var File_client_proto protoreflect.FileDescriptor
 
 var file_client_proto_rawDesc = string([]byte{
 	0x0a, 0x0c, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x06,
 	0x6d, 0x79, 0x70, 0x6c, 0x61, 0x79, 0x1a, 0x0c, 0x70, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0e, 0x65, 0x6e, 0x75, 0x6d, 0x2e, 0x67, 0x65, 0x6e, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x0e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x22, 0x8c, 0x02, 0x0a, 0x07, 0x41, 0x75, 0x74, 0x68, 0x52, 0x65, 0x71,
 	0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
 	0x6e, 0x61, 0x6d, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x02, 0x20,
@@ -228,8 +492,30 @@ var file_client_proto_rawDesc = string([]byte{
 	0x65, 0x61, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04,
 	0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x72, 0x6c, 0x18, 0x03, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x03, 0x75, 0x72, 0x6c, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
-	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x42, 0x06, 0x5a,
-	0x04, 0x2e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x48, 0x0a,
+	0x08, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x6b,
+	0x65, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
+	0x26, 0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e,
+	0x6d, 0x79, 0x70, 0x6c, 0x61, 0x79, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x44, 0x61, 0x74,
+	0x61, 0x52, 0x04, 0x64, 0x61, 0x74, 0x61, 0x22, 0x2f, 0x0a, 0x08, 0x4c, 0x6f, 0x67, 0x69, 0x6e,
+	0x52, 0x73, 0x70, 0x12, 0x23, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x2e, 0x52, 0x73, 0x70, 0x48, 0x65,
+	0x61, 0x64, 0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x22, 0x56, 0x0a, 0x0a, 0x4b, 0x69, 0x63, 0x6b,
+	0x4e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x1d, 0x0a, 0x0a, 0x6c, 0x6f, 0x67, 0x69,
+	0x6e, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x6c, 0x6f,
+	0x67, 0x69, 0x6e, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x6e, 0x6f, 0x64, 0x65, 0x5f,
+	0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x6e, 0x6f, 0x64, 0x65, 0x49, 0x64,
+	0x22, 0x0a, 0x0a, 0x08, 0x48, 0x65, 0x61, 0x72, 0x74, 0x52, 0x65, 0x71, 0x22, 0x7b, 0x0a, 0x08,
+	0x48, 0x65, 0x61, 0x72, 0x74, 0x52, 0x73, 0x70, 0x12, 0x23, 0x0a, 0x04, 0x68, 0x65, 0x61, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x2e,
+	0x52, 0x73, 0x70, 0x48, 0x65, 0x61, 0x64, 0x52, 0x04, 0x68, 0x65, 0x61, 0x64, 0x12, 0x10, 0x0a,
+	0x03, 0x75, 0x74, 0x63, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x75, 0x74, 0x63, 0x12,
+	0x1d, 0x0a, 0x0a, 0x62, 0x65, 0x67, 0x69, 0x6e, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x09, 0x62, 0x65, 0x67, 0x69, 0x6e, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x19,
+	0x0a, 0x08, 0x65, 0x6e, 0x64, 0x5f, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x07, 0x65, 0x6e, 0x64, 0x54, 0x69, 0x6d, 0x65, 0x42, 0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x70,
+	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 })
 
 var (
@@ -244,23 +530,32 @@ func file_client_proto_rawDescGZIP() []byte {
 	return file_client_proto_rawDescData
 }
 
-var file_client_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_client_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_client_proto_goTypes = []any{
 	(*AuthReq)(nil),        // 0: myplay.AuthReq
 	(*AuthRsp)(nil),        // 1: myplay.AuthRsp
-	(Platform)(0),          // 2: myplay.Platform
-	(LoginType)(0),         // 3: myplay.LoginType
-	(*packet.RspHead)(nil), // 4: packet.RspHead
+	(*LoginReq)(nil),       // 2: myplay.LoginReq
+	(*LoginRsp)(nil),       // 3: myplay.LoginRsp
+	(*KickNotify)(nil),     // 4: myplay.KickNotify
+	(*HeartReq)(nil),       // 5: myplay.HeartReq
+	(*HeartRsp)(nil),       // 6: myplay.HeartRsp
+	(Platform)(0),          // 7: myplay.Platform
+	(LoginType)(0),         // 8: myplay.LoginType
+	(*packet.RspHead)(nil), // 9: packet.RspHead
+	(*PlayerData)(nil),     // 10: myplay.PlayerData
 }
 var file_client_proto_depIdxs = []int32{
-	2, // 0: myplay.AuthReq.platform:type_name -> myplay.Platform
-	3, // 1: myplay.AuthReq.login_type:type_name -> myplay.LoginType
-	4, // 2: myplay.AuthRsp.head:type_name -> packet.RspHead
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	7,  // 0: myplay.AuthReq.platform:type_name -> myplay.Platform
+	8,  // 1: myplay.AuthReq.login_type:type_name -> myplay.LoginType
+	9,  // 2: myplay.AuthRsp.head:type_name -> packet.RspHead
+	10, // 3: myplay.LoginReq.data:type_name -> myplay.PlayerData
+	9,  // 4: myplay.LoginRsp.head:type_name -> packet.RspHead
+	9,  // 5: myplay.HeartRsp.head:type_name -> packet.RspHead
+	6,  // [6:6] is the sub-list for method output_type
+	6,  // [6:6] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_client_proto_init() }
@@ -269,13 +564,14 @@ func file_client_proto_init() {
 		return
 	}
 	file_enum_gen_proto_init()
+	file_database_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_client_proto_rawDesc), len(file_client_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

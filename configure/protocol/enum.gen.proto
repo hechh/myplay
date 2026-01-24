@@ -1,35 +1,36 @@
 
 /*
- * 本代码由cfgtool工具生成，请勿手动修改
- */
+* 本代码由cfgtool工具生成，请勿手动修改
+*/
 
 syntax = "proto3";
 
 package myplay;
 
-option go_package = "./pb";
-
+option  go_package = "./pb";
+	
 enum LoginType {
-  LoginTypeNone = 0; // 登录类型-空
-  Guest         = 1; // 登录类型-游客登录
-  Account       = 2; // 登录类型-账号
-  Apple         = 3; // 登录类型-苹果
-  Google        = 4; // 登录类型-谷歌
+	LoginTypeNone	=	0;	// 登录类型-空
+	Guest	=	1;	// 登录类型-游客登录
+	Account	=	2;	// 登录类型-账号
+	Apple	=	3;	// 登录类型-苹果
+	Google	=	4;	// 登录类型-谷歌
 }
 
 enum NodeType {
-  Client = 0; // 节点类型-Client
-  Gate   = 1; // 节点类型-Gate
-  Auth   = 2; // 节点类型-Auth
-  Db     = 3; // 节点类型-Db
-  Game   = 4; // 节点类型-Game
+	Client	=	0;	// 节点类型-Client
+	Gate	=	1;	// 节点类型-Gate
+	Auth	=	2;	// 节点类型-Auth
+	Db	=	3;	// 节点类型-Db
+	Game	=	4;	// 节点类型-Game
 }
 
 enum Platform {
-  PlatformTypeNone = 0; // 平台类型-空
-  Mobile           = 1; // 平台类型-Mobile
-  Desktop          = 2; // 平台类型-Desktop
-  Web              = 3; // 平台类型-Web
-  Ios              = 4; // 平台类型-Ios
-  Android          = 5; // 平台类型-Android
+	PlatformTypeNone	=	0;	// 平台类型-空
+	Mobile	=	1;	// 平台类型-Mobile
+	Desktop	=	2;	// 平台类型-Desktop
+	Web	=	3;	// 平台类型-Web
+	Ios	=	4;	// 平台类型-Ios
+	Android	=	5;	// 平台类型-Android
 }
+

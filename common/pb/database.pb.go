@@ -231,6 +231,239 @@ func (x *AccountData) GetLoginType() LoginType {
 	return LoginType_LoginTypeNone
 }
 
+// 玩家游戏数据
+type PlayerData struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk"`           // @inject_tag: xorm:"bigint autoincr pk"
+	Uid           uint64                 `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint index notnull comment('玩家ID')"`         // @inject_tag: xorm:"bigint index notnull comment('玩家ID')"
+	Version       uint64                 `protobuf:"varint,3,opt,name=version,proto3" json:"version,omitempty" xorm:"version"` // @inject_tag: xorm:"version"
+	Base          *PlayerBaseData        `protobuf:"bytes,4,opt,name=base,proto3" json:"base,omitempty" xorm:"blob comment('玩家信息')"`        // @inject_tag: xorm:"blob comment('玩家信息')"
+	Bag           *PlayerBagData         `protobuf:"bytes,5,opt,name=bag,proto3" json:"bag,omitempty" xorm:"blob comment('背包系统')"`          // @inject_tag: xorm:"blob comment('背包系统')"
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *PlayerData) Reset() {
+	*x = PlayerData{}
+	mi := &file_database_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlayerData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlayerData) ProtoMessage() {}
+
+func (x *PlayerData) ProtoReflect() protoreflect.Message {
+	mi := &file_database_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlayerData.ProtoReflect.Descriptor instead.
+func (*PlayerData) Descriptor() ([]byte, []int) {
+	return file_database_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PlayerData) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *PlayerData) GetUid() uint64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+func (x *PlayerData) GetVersion() uint64 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *PlayerData) GetBase() *PlayerBaseData {
+	if x != nil {
+		return x.Base
+	}
+	return nil
+}
+
+func (x *PlayerData) GetBag() *PlayerBagData {
+	if x != nil {
+		return x.Bag
+	}
+	return nil
+}
+
+type PlayerBaseData struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Phone         string                 `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *PlayerBaseData) Reset() {
+	*x = PlayerBaseData{}
+	mi := &file_database_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlayerBaseData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlayerBaseData) ProtoMessage() {}
+
+func (x *PlayerBaseData) ProtoReflect() protoreflect.Message {
+	mi := &file_database_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlayerBaseData.ProtoReflect.Descriptor instead.
+func (*PlayerBaseData) Descriptor() ([]byte, []int) {
+	return file_database_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *PlayerBaseData) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PlayerBaseData) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *PlayerBaseData) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type PlayerBagData struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	Items         []*ItemData            `protobuf:"bytes,1,rep,name=Items,proto3" json:"Items,omitempty"`
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *PlayerBagData) Reset() {
+	*x = PlayerBagData{}
+	mi := &file_database_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlayerBagData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlayerBagData) ProtoMessage() {}
+
+func (x *PlayerBagData) ProtoReflect() protoreflect.Message {
+	mi := &file_database_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlayerBagData.ProtoReflect.Descriptor instead.
+func (*PlayerBagData) Descriptor() ([]byte, []int) {
+	return file_database_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *PlayerBagData) GetItems() []*ItemData {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type ItemData struct {
+	state         protoimpl.MessageState `xorm:"-"` 
+	PropId        uint32                 `protobuf:"varint,1,opt,name=prop_id,json=propId,proto3" json:"prop_id,omitempty"`
+	Count         int64                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache `xorm:"-"`
+}
+
+func (x *ItemData) Reset() {
+	*x = ItemData{}
+	mi := &file_database_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ItemData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ItemData) ProtoMessage() {}
+
+func (x *ItemData) ProtoReflect() protoreflect.Message {
+	mi := &file_database_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ItemData.ProtoReflect.Descriptor instead.
+func (*ItemData) Descriptor() ([]byte, []int) {
+	return file_database_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ItemData) GetPropId() uint32 {
+	if x != nil {
+		return x.PropId
+	}
+	return 0
+}
+
+func (x *ItemData) GetCount() int64 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
 var File_database_proto protoreflect.FileDescriptor
 
 var file_database_proto_rawDesc = string([]byte{
@@ -268,8 +501,31 @@ var file_database_proto_rawDesc = string([]byte{
 	0x08, 0x70, 0x6c, 0x61, 0x74, 0x66, 0x6f, 0x72, 0x6d, 0x12, 0x30, 0x0a, 0x0a, 0x6c, 0x6f, 0x67,
 	0x69, 0x6e, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x11, 0x2e,
 	0x6d, 0x79, 0x70, 0x6c, 0x61, 0x79, 0x2e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65,
-	0x52, 0x09, 0x6c, 0x6f, 0x67, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x42, 0x06, 0x5a, 0x04, 0x2e,
-	0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x09, 0x6c, 0x6f, 0x67, 0x69, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x22, 0x9d, 0x01, 0x0a, 0x0a,
+	0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x69,
+	0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x18, 0x0a, 0x07,
+	0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x07, 0x76,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x2a, 0x0a, 0x04, 0x62, 0x61, 0x73, 0x65, 0x18, 0x04,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x6d, 0x79, 0x70, 0x6c, 0x61, 0x79, 0x2e, 0x50, 0x6c,
+	0x61, 0x79, 0x65, 0x72, 0x42, 0x61, 0x73, 0x65, 0x44, 0x61, 0x74, 0x61, 0x52, 0x04, 0x62, 0x61,
+	0x73, 0x65, 0x12, 0x27, 0x0a, 0x03, 0x62, 0x61, 0x67, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x15, 0x2e, 0x6d, 0x79, 0x70, 0x6c, 0x61, 0x79, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x42,
+	0x61, 0x67, 0x44, 0x61, 0x74, 0x61, 0x52, 0x03, 0x62, 0x61, 0x67, 0x22, 0x50, 0x0a, 0x0e, 0x50,
+	0x6c, 0x61, 0x79, 0x65, 0x72, 0x42, 0x61, 0x73, 0x65, 0x44, 0x61, 0x74, 0x61, 0x12, 0x12, 0x0a,
+	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x6d, 0x61, 0x69, 0x6c, 0x22, 0x37, 0x0a,
+	0x0d, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x42, 0x61, 0x67, 0x44, 0x61, 0x74, 0x61, 0x12, 0x26,
+	0x0a, 0x05, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e,
+	0x6d, 0x79, 0x70, 0x6c, 0x61, 0x79, 0x2e, 0x49, 0x74, 0x65, 0x6d, 0x44, 0x61, 0x74, 0x61, 0x52,
+	0x05, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x22, 0x39, 0x0a, 0x08, 0x49, 0x74, 0x65, 0x6d, 0x44, 0x61,
+	0x74, 0x61, 0x12, 0x17, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x70, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0d, 0x52, 0x06, 0x70, 0x72, 0x6f, 0x70, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x63,
+	0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x63, 0x6f, 0x75, 0x6e,
+	0x74, 0x42, 0x06, 0x5a, 0x04, 0x2e, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 })
 
 var (
@@ -284,22 +540,29 @@ func file_database_proto_rawDescGZIP() []byte {
 	return file_database_proto_rawDescData
 }
 
-var file_database_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_database_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_database_proto_goTypes = []any{
-	(*SessionData)(nil), // 0: myplay.SessionData
-	(*AccountData)(nil), // 1: myplay.AccountData
-	(Platform)(0),       // 2: myplay.Platform
-	(LoginType)(0),      // 3: myplay.LoginType
+	(*SessionData)(nil),    // 0: myplay.SessionData
+	(*AccountData)(nil),    // 1: myplay.AccountData
+	(*PlayerData)(nil),     // 2: myplay.PlayerData
+	(*PlayerBaseData)(nil), // 3: myplay.PlayerBaseData
+	(*PlayerBagData)(nil),  // 4: myplay.PlayerBagData
+	(*ItemData)(nil),       // 5: myplay.ItemData
+	(Platform)(0),          // 6: myplay.Platform
+	(LoginType)(0),         // 7: myplay.LoginType
 }
 var file_database_proto_depIdxs = []int32{
-	2, // 0: myplay.SessionData.platform:type_name -> myplay.Platform
-	2, // 1: myplay.AccountData.platform:type_name -> myplay.Platform
-	3, // 2: myplay.AccountData.login_type:type_name -> myplay.LoginType
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	6, // 0: myplay.SessionData.platform:type_name -> myplay.Platform
+	6, // 1: myplay.AccountData.platform:type_name -> myplay.Platform
+	7, // 2: myplay.AccountData.login_type:type_name -> myplay.LoginType
+	3, // 3: myplay.PlayerData.base:type_name -> myplay.PlayerBaseData
+	4, // 4: myplay.PlayerData.bag:type_name -> myplay.PlayerBagData
+	5, // 5: myplay.PlayerBagData.Items:type_name -> myplay.ItemData
+	6, // [6:6] is the sub-list for method output_type
+	6, // [6:6] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_database_proto_init() }
@@ -314,7 +577,7 @@ func file_database_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_database_proto_rawDesc), len(file_database_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

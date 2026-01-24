@@ -30,3 +30,27 @@ message AccountData {
   Platform  platform    = 9; // @inject_tag: xorm:"int index comment('注册平台')"
   LoginType login_type  = 10; // @inject_tag: xorm:"int index comment('登录类型')"
 }
+
+// 玩家游戏数据
+message PlayerData {
+  uint64         id      = 1; // @inject_tag: xorm:"bigint autoincr pk"
+  uint64         uid     = 2; // @inject_tag: xorm:"bigint index notnull comment('玩家ID')"
+  uint64         version = 3; // @inject_tag: xorm:"version"
+  PlayerBaseData base    = 4; // @inject_tag: xorm:"blob comment('玩家信息')"
+  PlayerBagData  bag     = 5; // @inject_tag: xorm:"blob comment('背包系统')"
+}
+
+message PlayerBaseData {
+  string name  = 1;
+  string phone = 2;
+  string email = 3;
+}
+
+message PlayerBagData {
+  repeated ItemData Items = 1;
+}
+
+message ItemData {
+  uint32 prop_id = 1;
+  int64  count   = 2;
+}

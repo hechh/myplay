@@ -1,10 +1,11 @@
-package main
+package test
 
 import (
-	"flag"
 	"myplay/common/dao/router_data"
 	"myplay/message"
 	"myplay/server/db/internal/config"
+	"path/filepath"
+	"testing"
 
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/bus"
@@ -19,14 +20,10 @@ import (
 	"github.com/hechh/library/util"
 )
 
-func main() {
-	var cfg string
-	var nodeId int
-	var mode string
-	flag.StringVar(&mode, "mode", "debug", "启动模式")
-	flag.StringVar(&cfg, "config", "config.yaml", "游戏配置文件")
-	flag.IntVar(&nodeId, "id", 1, "服务ID")
-	flag.Parse()
+func TestMain(m *testing.M) {
+	mode := "debug"
+	nodeId := 1
+	cfg := "../../../configure/env/develop/config.yaml"
 
 	// 加载配置
 	util.Must(config.Load(cfg, int32(nodeId)))
@@ -36,7 +33,7 @@ func main() {
 	async.Except(mlog.Fatalf)
 
 	mlog.Infof("初始化配置...")
-	util.Must(fwatcher.Init(config.NodeCfg.TablePath))
+	util.Must(fwatcher.Init("../../../configure/data"))
 
 	mlog.Infof("初始化数据库...")
 	util.Must(database.Init(database.MysqlDriver, config.DbCfg.Mysql))
@@ -62,15 +59,13 @@ func main() {
 	mlog.Infof("注册Rpc...")
 	message.Init()
 
-	// todo 初始化模块
+	m.Run()
+}
 
-	mlog.Infof("服务启动成功...")
-	util.Signal(func() {
-		bus.Close()
-		cluster.Close()
-		router.Close()
-		gc.Close()
-		mlog.Close()
-	})
+func TestGlob(t *testing.T) {
+	str := "output/data/aaa.conf"
+	t.Log(filepath.Ext(str))
 
+	files, err := filepath.Glob("../../../output/data/*.conf")
+	t.Log(files, err)
 }

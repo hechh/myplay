@@ -2,6 +2,7 @@ package router_data
 
 import (
 	"fmt"
+	"myplay/common/constant"
 
 	"github.com/hechh/framework"
 	"github.com/hechh/library/myredis"
@@ -12,13 +13,13 @@ func GetRouterKey(uid string) string {
 	return fmt.Sprintf("router:%s", uid)
 }
 
-func GetRouter(dbname string, uid uint64) (string, error) {
-	client := myredis.Get(dbname)
+func GetRouter(uid uint64) (string, error) {
+	client := myredis.Get(constant.REDIS_DB_ACCOUNT)
 	str := cast.ToString(uid)
 	return client.Get(GetRouterKey(str))
 }
 
-func SaveRouter(dbname string, data map[string]framework.IRouter) error {
+func SaveRouter(data map[string]framework.IRouter) error {
 	if len(data) <= 0 {
 		return nil
 	}
@@ -30,7 +31,7 @@ func SaveRouter(dbname string, data map[string]framework.IRouter) error {
 		}
 		args = append(args, GetRouterKey(key), string(buf))
 	}
-	if err := myredis.Get(dbname).MSet(args...); err != nil {
+	if err := myredis.Get(constant.REDIS_DB_ACCOUNT).MSet(args...); err != nil {
 		return err
 	}
 	for _, item := range data {
