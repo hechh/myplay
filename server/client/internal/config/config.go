@@ -16,10 +16,9 @@ var (
 )
 
 type CommonConfig struct {
-	Env         string `yaml:"env"`
-	IsOpenPprof bool   `yaml:"is_open_pprof"`
-	TokenKey    string `yaml:"token_key"`
-	AesKey      string `yaml:"aes_key"`
+	yaml.CommonConfig
+	TokenKey string `yaml:"token_key"`
+	AesKey   string `yaml:"aes_key"`
 }
 
 type ClientConfig struct {

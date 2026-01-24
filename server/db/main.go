@@ -38,7 +38,7 @@ func main() {
 	async.Except(mlog.Fatalf)
 
 	mlog.Infof("初始化配置...")
-	util.Must(fwatcher.Init(config.NodeCfg.TablePath))
+	util.Must(fwatcher.Init(config.DbCfg.Common.TablePath))
 	mlog.Infof("初始化数据库...")
 	util.Must(database.Init(database.MysqlDriver, config.DbCfg.Mysql))
 	mlog.Infof("初始化Redis...")
