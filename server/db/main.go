@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"myplay/common/dao/router_data"
+	"myplay/common/pb"
 	"myplay/message"
 	"myplay/server/db/internal/config"
 
 	"github.com/hechh/framework"
+	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/bus"
 	"github.com/hechh/framework/cluster"
 	"github.com/hechh/framework/gc"
@@ -37,27 +39,22 @@ func main() {
 
 	mlog.Infof("初始化配置...")
 	util.Must(fwatcher.Init(config.NodeCfg.TablePath))
-
 	mlog.Infof("初始化数据库...")
 	util.Must(database.Init(database.MysqlDriver, config.DbCfg.Mysql))
-
 	mlog.Infof("初始化Redis...")
 	util.Must(myredis.Init(config.DbCfg.Redis))
-
-	mlog.Infof("初始化Snowflake...")
-	//util.Must(snowflake.Init(framework.GetSelfType(), framework.GetSelfId()))
-
 	mlog.Infof("初始化垃圾回收...")
 	gc.Init()
-
 	mlog.Infof("初始化路由...")
 	router.Init(config.NodeCfg, router_data.SaveRouter)
-
 	mlog.Infof("初始化集群...")
 	util.Must(cluster.Init(config.DbCfg.Etcd))
 
 	mlog.Infof("初始化消息队列...")
 	util.Must(bus.Init(config.DbCfg.Nats))
+	util.Must(bus.SubscribeBroadcast(recv))
+	util.Must(bus.SubscribeUnicast(recv))
+	util.Must(bus.SubscribeReply(recv))
 
 	mlog.Infof("注册Rpc...")
 	message.Init()
@@ -73,4 +70,18 @@ func main() {
 		mlog.Close()
 	})
 
+}
+
+func recv(ctx framework.IContext, body []byte) {
+	head := ctx.GetHead()
+	if head.ActorFunc == 0 {
+		err := bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.SendToClient", head.Id, body))
+		if err != nil {
+			ctx.Errorf("Send发送失败: %v", err)
+		}
+		return
+	}
+	if err := actor.Send(ctx, body); err != nil {
+		ctx.Errorf("Actor调用失败: %v", err)
+	}
 }

@@ -58,10 +58,10 @@ func main() {
 	util.Must(cluster.Init(config.GateCfg.Etcd))
 
 	mlog.Infof("初始化消息队列...")
+	util.Must(bus.Init(config.GateCfg.Nats))
 	util.Must(bus.SubscribeBroadcast(recv))
 	util.Must(bus.SubscribeUnicast(recv))
 	util.Must(bus.SubscribeReply(recv))
-	util.Must(bus.Init(config.GateCfg.Nats))
 
 	mlog.Infof("注册Rpc...")
 	message.Init()
