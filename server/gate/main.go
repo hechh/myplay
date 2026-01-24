@@ -9,6 +9,7 @@ import (
 	"myplay/server/gate/internal/player"
 
 	"github.com/hechh/framework"
+	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/bus"
 	"github.com/hechh/framework/cluster"
 	"github.com/hechh/framework/gc"
@@ -47,9 +48,6 @@ func main() {
 	mlog.Infof("初始化Redis...")
 	util.Must(myredis.Init(config.GateCfg.Redis))
 
-	mlog.Infof("初始化Snowflake...")
-	//util.Must(snowflake.Init(framework.GetSelfType(), framework.GetSelfId()))
-
 	mlog.Infof("初始化垃圾回收...")
 	gc.Init()
 
@@ -60,6 +58,9 @@ func main() {
 	util.Must(cluster.Init(config.GateCfg.Etcd))
 
 	mlog.Infof("初始化消息队列...")
+	util.Must(bus.SubscribeBroadcast(recv))
+	util.Must(bus.SubscribeUnicast(recv))
+	util.Must(bus.SubscribeReply(recv))
 	util.Must(bus.Init(config.GateCfg.Nats))
 
 	mlog.Infof("注册Rpc...")
@@ -67,7 +68,7 @@ func main() {
 
 	mlog.Infof("初始化PlayerMgr...")
 	mgr := &player.PlayerMgr{}
-	mgr.Start()
+	mgr.Init()
 
 	mlog.Infof("初始化websocket...")
 	util.Must(socket.Init(config.NodeCfg, &frame.Frame{}, mgr.Handle))
@@ -81,4 +82,17 @@ func main() {
 		gc.Close()
 		mlog.Close()
 	})
+}
+
+func recv(ctx framework.IContext, body []byte) {
+	head := ctx.GetHead()
+	if head.ActorFunc == 0 {
+		if err := actor.SendMsgTo(ctx, "Player.SendToClient", body); err != nil {
+			ctx.Errorf("SendToClient失败: %v", err)
+		}
+		return
+	}
+	if err := actor.Send(ctx, body); err != nil {
+		ctx.Errorf("Actor调用失败: %v", err)
+	}
 }

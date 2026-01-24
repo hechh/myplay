@@ -13,6 +13,7 @@ import (
 	"github.com/hechh/framework/socket"
 	"github.com/hechh/library/mlog"
 	"github.com/hechh/library/uerror"
+	"google.golang.org/protobuf/proto"
 )
 
 type Player struct {
@@ -25,10 +26,11 @@ type Player struct {
 }
 
 func init() {
-	handler.RegisterCmd((*Player).Login)                  // 登录
-	handler.RegisterCmd((*Player).LoginSuccess)           // 登录成功
-	handler.RegisterP1(framework.PROTO, (*Player).Kick)   // 剔除玩家
-	handler.RegisterV1(framework.BYTES, (*Player).Handle) // 消息处理
+	handler.RegisterCmd((*Player).Login)                        // 登录
+	handler.RegisterCmd((*Player).LoginSuccess)                 // 登录成功
+	handler.RegisterP1(framework.PROTO, (*Player).Kick)         // 剔除玩家
+	handler.RegisterV1(framework.BYTES, (*Player).Handle)       // 消息处理
+	handler.RegisterV1(framework.BYTES, (*Player).SendToClient) // 消息处理
 }
 
 func NewPlayer(head *packet.Head, now int64) *Player {
@@ -72,8 +74,20 @@ func (d *Player) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRs
 func (d *Player) LoginSuccess(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRsp) error {
 	atomic.StoreInt32(&d.status, 1)
 	ctx.AddDepth(1)
-	// todo
-	return nil
+	body, _ := proto.Marshal(rsp)
+	return d.SendToClient(ctx, body)
+}
+
+func (d *Player) SendToClient(ctx framework.IContext, body []byte) error {
+	head := ctx.GetHead()
+	if head.Cmd%2 == 0 {
+		if _, ok := pb.CMD_name[int32(head.Cmd)+1]; ok {
+			head.Cmd++
+		}
+	}
+	ctx.AddDepth(1)
+	head.SocketId = d.socketId
+	return socket.Send(&packet.Packet{Head: head, Body: body})
 }
 
 func (d *Player) Kick(ctx framework.IContext, event *pb.KickNotify) error {
