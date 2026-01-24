@@ -5,6 +5,7 @@ import (
 
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
+	"github.com/hechh/framework/handler"
 	"github.com/hechh/library/mlog"
 	"github.com/hechh/library/uerror"
 )
@@ -12,6 +13,10 @@ import (
 type PlayerMgr struct {
 	actor.Actor
 	mgr *actor.ActorMgr
+}
+
+func init() {
+	handler.RegisterCmd((*PlayerMgr).Login)
 }
 
 func (d *PlayerMgr) Init() {

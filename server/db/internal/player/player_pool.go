@@ -7,11 +7,18 @@ import (
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/bus"
+	"github.com/hechh/framework/handler"
 	"github.com/hechh/library/mlog"
 )
 
 type PlayerPool struct {
 	actor.ActorPool
+}
+
+func init() {
+	handler.RegisterCmd((*PlayerPool).Login)
+	handler.RegisterV1(framework.GOB, (*PlayerPool).Get)
+	handler.RegisterP1(framework.PROTO, (*PlayerPool).Save)
 }
 
 func (d *PlayerPool) Init() {

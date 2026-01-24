@@ -9,6 +9,7 @@ import (
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/bus"
 	"github.com/hechh/framework/context"
+	"github.com/hechh/framework/handler"
 	"github.com/hechh/framework/packet"
 	"github.com/hechh/library/mlog"
 	"github.com/hechh/library/uerror"
@@ -17,6 +18,12 @@ import (
 type Player struct {
 	*playerfun.ParentFun
 	heartTime int64
+}
+
+func init() {
+	handler.RegisterCmd((*Player).Login)
+	handler.RegisterCmd((*Player).Relogin)
+	handler.RegisterCmd((*Player).Heart)
 }
 
 func (d *Player) Init(uid uint64) {

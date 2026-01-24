@@ -72,12 +72,12 @@ xlsx2data:
 	@go run ${tool_path_xlsx}/main.go  -src=${path_table} -dst=${path_data} -a=data -p=myplay -d=${gen_descriptor}
 docker_stop:
 	@echo "停止docker环境"
-	-cd ./output && docker-compose -f docker_compose.yaml down
+	-cd ${gen_path_output} && docker-compose -f docker_compose.yaml down
 docker_run:
 	@echo "启动docker环境"
-	-cd ./output && docker-compose -f docker_compose.yaml up -d
+	-cd ${gen_path_output} && docker-compose -f docker_compose.yaml up -d
 develop:
-	@mkdir -p ./output
+	@mkdir -p ${gen_path_output}
 	@cp -rf ./configure/env/develop/* ./configure/data ./output
 
 

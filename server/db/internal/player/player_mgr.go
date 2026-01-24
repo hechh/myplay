@@ -9,6 +9,7 @@ import (
 	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/bus"
 	"github.com/hechh/framework/context"
+	"github.com/hechh/framework/handler"
 	"github.com/hechh/library/mlog"
 	"github.com/hechh/library/util"
 )
@@ -23,6 +24,13 @@ type PlayerData struct {
 type PlayerMgr struct {
 	actor.Actor
 	datas map[uint64]*PlayerData
+}
+
+func init() {
+	handler.Register0(framework.EMPTY, (*PlayerMgr).Remove)
+	handler.RegisterCmd((*PlayerMgr).Login)
+	handler.RegisterP1(framework.PROTO, (*PlayerMgr).Load)
+	handler.RegisterP1(framework.PROTO, (*PlayerMgr).Update)
 }
 
 func (d *PlayerMgr) Init() error {
