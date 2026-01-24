@@ -20,4 +20,6 @@ enum ErrorCode {
   RpcNotSupported   = 108;
   LockFailed        = 109;
   UnlockFailed      = 110;
+  HeartTimeOver     = 111;
+  ParameterInvalid  = 112;
 }

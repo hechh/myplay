@@ -21,12 +21,32 @@ tool_path_pb=./tools/pbtool
 tool_path_xlsx=./tools/xlsx
 
 ## 需要编译的服务
+TARGET=gate db game
 TOOLS=pb pb2redis xlsx xlsx2code xlsx2proto xlsx2data 
+LINUX=$(TARGET:%=%_linux)
+BUILD=$(TARGET:%=%_build)
 
-.PHONY: ${TOOLS} docker_stop docker_run develop 
+.PHONY: ${TARGET} ${TOOLS} docker_stop docker_run develop 
+
+all: clean
+	make ${BUILD}
+
+linux: clean
+	make ${LINUX}
+
+build: clean ${BUILD}
 
 clean:
-	-rm -rf ${gen_path_output}
+	@rm -rf ${gen_path_output}
+
+$(LINUX): %_linux: %
+	@echo "Building $*"
+	CGO_ENABLE=0 GOOS=linux GOARCH=amd64 go build ${GCFLAGS} -o ${gen_path_output}/ ./server/$*
+
+$(BUILD): %_build: %
+	@echo "Building $*"
+	go build ${GCFLAGS} -o ${gen_path_output}/$* ./server/$*
+
 pb:
 	@echo "Building pb"
 	@rm -rf ${gen_path_pb} && ${path_scripts}/pb_gen.sh

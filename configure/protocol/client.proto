@@ -47,6 +47,7 @@ message KickNotify {
 
 // 心跳协议
 message HeartReq {
+  int64 begin_time = 1; // 请求时间
 }
 
 message HeartRsp {

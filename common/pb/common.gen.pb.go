@@ -12,6 +12,10 @@ func (d CMD) Integer() uint32 {
 	return uint32(d.Number())
 }
 
+func (d PlayerDataType) Integer() uint32 {
+	return uint32(d.Number())
+}
+
 func (d LoginType) Integer() uint32 {
 	return uint32(d.Number())
 }

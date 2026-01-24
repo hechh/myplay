@@ -54,3 +54,9 @@ message ItemData {
   uint32 prop_id = 1;
   int64  count   = 2;
 }
+
+
+enum PlayerDataType {
+  BASE = 0;
+  BAG = 1;
+}
