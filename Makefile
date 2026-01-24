@@ -21,7 +21,7 @@ tool_path_pb=./tools/pbtool
 tool_path_xlsx=./tools/xlsx
 
 ## 需要编译的服务
-TARGET=gate db game
+TARGET=gate db game client
 TOOLS=pb pb2redis xlsx xlsx2code xlsx2proto xlsx2data 
 LINUX=$(TARGET:%=%_linux)
 BUILD=$(TARGET:%=%_build)
