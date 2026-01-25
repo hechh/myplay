@@ -6,6 +6,7 @@ import (
 	"myplay/common/pb"
 	"myplay/message"
 	"myplay/server/db/internal/config"
+	"myplay/server/db/internal/player"
 
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
@@ -59,10 +60,16 @@ func main() {
 	mlog.Infof("注册Rpc...")
 	message.Init()
 
-	// todo 初始化模块
+	// 初始化模块
+	playerPool := &player.PlayerPool{}
+	playerPool.Init()
+	playerMgr := &player.PlayerMgr{}
+	util.Must(playerMgr.Init())
 
 	mlog.Infof("服务启动成功...")
 	util.Signal(func() {
+		playerMgr.Close()
+		playerPool.Close()
 		bus.Close()
 		cluster.Close()
 		router.Close()
@@ -73,6 +80,7 @@ func main() {
 }
 
 func recv(ctx framework.IContext, body []byte) {
+	ctx.Tracef("消息中间件收到消息：%v", body)
 	head := ctx.GetHead()
 	if head.ActorFunc == 0 {
 		err := bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.SendToClient", head.Id, body))

@@ -7,11 +7,12 @@
 package pb
 
 import (
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
+
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 const (
@@ -69,16 +70,16 @@ func (PlayerDataType) EnumDescriptor() ([]byte, []int) {
 
 // @dbtool:string|myplay|session:Uid@uint64|#玩家会话信息
 type SessionData struct {
-	state         protoimpl.MessageState `xorm:"-"` 
-	Uid           uint64                 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`                                // 用户ID
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`                               // 昵称
-	LoginTime     int64                  `protobuf:"varint,4,opt,name=login_time,json=loginTime,proto3" json:"login_time,omitempty"`   // 创建时间
-	LoginIp       string                 `protobuf:"bytes,5,opt,name=login_ip,json=loginIp,proto3" json:"login_ip,omitempty"`          // 客户端IP
-	Version       string                 `protobuf:"bytes,6,opt,name=version,proto3" json:"version,omitempty"`                         // 版本
-	DeviceId      string                 `protobuf:"bytes,7,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`       // 设备id
-	Platform      Platform               `protobuf:"varint,8,opt,name=platform,proto3,enum=myplay.Platform" json:"platform,omitempty"` // 登录平台
+	state         protoimpl.MessageState  `xorm:"-"`
+	Uid           uint64                  `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`                                // 用户ID
+	Name          string                  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`                               // 昵称
+	LoginTime     int64                   `protobuf:"varint,4,opt,name=login_time,json=loginTime,proto3" json:"login_time,omitempty"`   // 创建时间
+	LoginIp       string                  `protobuf:"bytes,5,opt,name=login_ip,json=loginIp,proto3" json:"login_ip,omitempty"`          // 客户端IP
+	Version       string                  `protobuf:"bytes,6,opt,name=version,proto3" json:"version,omitempty"`                         // 版本
+	DeviceId      string                  `protobuf:"bytes,7,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`       // 设备id
+	Platform      Platform                `protobuf:"varint,8,opt,name=platform,proto3,enum=myplay.Platform" json:"platform,omitempty"` // 登录平台
 	unknownFields protoimpl.UnknownFields `xorm:"-"`
-	sizeCache     protoimpl.SizeCache `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *SessionData) Reset() {
@@ -162,19 +163,19 @@ func (x *SessionData) GetPlatform() Platform {
 
 // 玩家账号数据
 type AccountData struct {
-	state         protoimpl.MessageState `xorm:"-"` 
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk comment('数据库唯一id')"`                                                       // @inject_tag: xorm:"bigint autoincr pk comment('数据库唯一id')"
-	Uid           uint64                 `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint index notnull comment('玩家uid')"`                                                     // @inject_tag: xorm:"bigint index notnull comment('玩家uid')"
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty" xorm:"varchar(25) index comment('用户名')"`                                                    // @inject_tag: xorm:"varchar(25) index comment('用户名')"
-	Email         string                 `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty" xorm:"varchar(50) index comment('邮箱')"`                                                  // @inject_tag: xorm:"varchar(50) index comment('邮箱')"
-	Phone         string                 `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty" xorm:"varchar(16) index comment('手机号')"`                                                  // @inject_tag: xorm:"varchar(16) index comment('手机号')"
-	Password      string                 `protobuf:"bytes,6,opt,name=password,proto3" json:"password,omitempty" xorm:"varbinary(255) comment('密码hash值')"`                                            // @inject_tag: xorm:"varbinary(255) comment('密码hash值')"
-	SecretKey     string                 `protobuf:"bytes,7,opt,name=secret_key,json=secretKey,proto3" json:"secret_key,omitempty" xorm:"varbinary(32) comment('密码随机密钥')"`                         // @inject_tag: xorm:"varbinary(32) comment('密码随机密钥')"
-	CreateTime    int64                  `protobuf:"varint,8,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty" xorm:"bigint comment('创建时间')"`                     // @inject_tag: xorm:"bigint comment('创建时间')"
-	Platform      Platform               `protobuf:"varint,9,opt,name=platform,proto3,enum=myplay.Platform" json:"platform,omitempty" xorm:"int index comment('注册平台')"`                      // @inject_tag: xorm:"int index comment('注册平台')"
-	LoginType     LoginType              `protobuf:"varint,10,opt,name=login_type,json=loginType,proto3,enum=myplay.LoginType" json:"login_type,omitempty" xorm:"int index comment('登录类型')"` // @inject_tag: xorm:"int index comment('登录类型')"
+	state         protoimpl.MessageState  `xorm:"-"`
+	Id            int64                   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk comment('数据库唯一id')"`                                           // @inject_tag: xorm:"bigint autoincr pk comment('数据库唯一id')"
+	Uid           uint64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint index notnull comment('玩家uid')"`                                         // @inject_tag: xorm:"bigint index notnull comment('玩家uid')"
+	Name          string                  `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty" xorm:"varchar(25) index comment('用户名')"`                                             // @inject_tag: xorm:"varchar(25) index comment('用户名')"
+	Email         string                  `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty" xorm:"varchar(50) index comment('邮箱')"`                                            // @inject_tag: xorm:"varchar(50) index comment('邮箱')"
+	Phone         string                  `protobuf:"bytes,5,opt,name=phone,proto3" json:"phone,omitempty" xorm:"varchar(16) index comment('手机号')"`                                           // @inject_tag: xorm:"varchar(16) index comment('手机号')"
+	Password      string                  `protobuf:"bytes,6,opt,name=password,proto3" json:"password,omitempty" xorm:"varbinary(255) comment('密码hash值')"`                                    // @inject_tag: xorm:"varbinary(255) comment('密码hash值')"
+	SecretKey     string                  `protobuf:"bytes,7,opt,name=secret_key,json=secretKey,proto3" json:"secret_key,omitempty" xorm:"varbinary(32) comment('密码随机密钥')"`                   // @inject_tag: xorm:"varbinary(32) comment('密码随机密钥')"
+	CreateTime    int64                   `protobuf:"varint,8,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty" xorm:"bigint comment('创建时间')"`                        // @inject_tag: xorm:"bigint comment('创建时间')"
+	Platform      Platform                `protobuf:"varint,9,opt,name=platform,proto3,enum=myplay.Platform" json:"platform,omitempty" xorm:"int index comment('注册平台')"`                      // @inject_tag: xorm:"int index comment('注册平台')"
+	LoginType     LoginType               `protobuf:"varint,10,opt,name=login_type,json=loginType,proto3,enum=myplay.LoginType" json:"login_type,omitempty" xorm:"int index comment('登录类型')"` // @inject_tag: xorm:"int index comment('登录类型')"
 	unknownFields protoimpl.UnknownFields `xorm:"-"`
-	sizeCache     protoimpl.SizeCache `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *AccountData) Reset() {
@@ -279,14 +280,14 @@ func (x *AccountData) GetLoginType() LoginType {
 
 // 玩家游戏数据
 type PlayerData struct {
-	state         protoimpl.MessageState `xorm:"-"` 
-	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk"`           // @inject_tag: xorm:"bigint autoincr pk"
-	Uid           uint64                 `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint index notnull comment('玩家ID')"`         // @inject_tag: xorm:"bigint index notnull comment('玩家ID')"
-	Version       uint64                 `protobuf:"varint,3,opt,name=version,proto3" json:"version,omitempty" xorm:"version"` // @inject_tag: xorm:"version"
-	Base          *PlayerBaseData        `protobuf:"bytes,4,opt,name=base,proto3" json:"base,omitempty" xorm:"blob comment('玩家信息')"`        // @inject_tag: xorm:"blob comment('玩家信息')"
-	Bag           *PlayerBagData         `protobuf:"bytes,5,opt,name=bag,proto3" json:"bag,omitempty" xorm:"blob comment('背包系统')"`          // @inject_tag: xorm:"blob comment('背包系统')"
+	state         protoimpl.MessageState  `xorm:"-"`
+	Id            uint64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk"`                     // @inject_tag: xorm:"bigint autoincr pk"
+	Uid           uint64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint index notnull comment('玩家ID')"` // @inject_tag: xorm:"bigint index notnull comment('玩家ID')"
+	Version       uint64                  `protobuf:"varint,3,opt,name=version,proto3" json:"version,omitempty" xorm:"version"`                      // @inject_tag: xorm:"version"
+	Base          *PlayerBaseData         `protobuf:"bytes,4,opt,name=base,proto3" json:"base,omitempty" xorm:"blob comment('玩家信息')"`                // @inject_tag: xorm:"blob comment('玩家信息')"
+	Bag           *PlayerBagData          `protobuf:"bytes,5,opt,name=bag,proto3" json:"bag,omitempty" xorm:"blob comment('背包系统')"`                  // @inject_tag: xorm:"blob comment('背包系统')"
 	unknownFields protoimpl.UnknownFields `xorm:"-"`
-	sizeCache     protoimpl.SizeCache `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *PlayerData) Reset() {
@@ -355,12 +356,12 @@ func (x *PlayerData) GetBag() *PlayerBagData {
 }
 
 type PlayerBaseData struct {
-	state         protoimpl.MessageState `xorm:"-"` 
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Phone         string                 `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	state         protoimpl.MessageState  `xorm:"-"`
+	Name          string                  `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Phone         string                  `protobuf:"bytes,2,opt,name=phone,proto3" json:"phone,omitempty"`
+	Email         string                  `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields `xorm:"-"`
-	sizeCache     protoimpl.SizeCache `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *PlayerBaseData) Reset() {
@@ -415,10 +416,10 @@ func (x *PlayerBaseData) GetEmail() string {
 }
 
 type PlayerBagData struct {
-	state         protoimpl.MessageState `xorm:"-"` 
-	Items         []*ItemData            `protobuf:"bytes,1,rep,name=Items,proto3" json:"Items,omitempty"`
+	state         protoimpl.MessageState  `xorm:"-"`
+	Items         []*ItemData             `protobuf:"bytes,1,rep,name=Items,proto3" json:"Items,omitempty"`
 	unknownFields protoimpl.UnknownFields `xorm:"-"`
-	sizeCache     protoimpl.SizeCache `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *PlayerBagData) Reset() {
@@ -459,11 +460,11 @@ func (x *PlayerBagData) GetItems() []*ItemData {
 }
 
 type ItemData struct {
-	state         protoimpl.MessageState `xorm:"-"` 
-	PropId        uint32                 `protobuf:"varint,1,opt,name=prop_id,json=propId,proto3" json:"prop_id,omitempty"`
-	Count         int64                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	state         protoimpl.MessageState  `xorm:"-"`
+	PropId        uint32                  `protobuf:"varint,1,opt,name=prop_id,json=propId,proto3" json:"prop_id,omitempty"`
+	Count         int64                   `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
 	unknownFields protoimpl.UnknownFields `xorm:"-"`
-	sizeCache     protoimpl.SizeCache `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *ItemData) Reset() {

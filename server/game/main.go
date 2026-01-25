@@ -6,6 +6,7 @@ import (
 	"myplay/common/pb"
 	"myplay/message"
 	"myplay/server/game/internal/config"
+	"myplay/server/game/internal/player"
 
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
@@ -68,9 +69,12 @@ func main() {
 	message.Init()
 
 	mlog.Infof("初始化PlayerMgr...")
+	playerMgr := &player.PlayerMgr{}
+	playerMgr.Init()
 
 	mlog.Infof("服务启动成功...")
 	util.Signal(func() {
+		playerMgr.Close()
 		bus.Close()
 		cluster.Close()
 		router.Close()
@@ -80,6 +84,7 @@ func main() {
 }
 
 func recv(ctx framework.IContext, body []byte) {
+	ctx.Tracef("消息中间件收到消息：%v", body)
 	head := ctx.GetHead()
 	if head.ActorFunc == 0 {
 		err := bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.SendToClient", head.Id, body))

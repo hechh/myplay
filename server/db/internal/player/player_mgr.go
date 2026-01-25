@@ -28,6 +28,7 @@ type PlayerMgr struct {
 
 func init() {
 	handler.Register0(framework.EMPTY, (*PlayerMgr).Remove)
+	handler.Register0(framework.EMPTY, (*PlayerMgr).OnTick)
 	handler.RegisterCmd((*PlayerMgr).Login)
 	handler.RegisterP1(framework.PROTO, (*PlayerMgr).Load)
 	handler.RegisterP1(framework.PROTO, (*PlayerMgr).Update)
@@ -37,6 +38,7 @@ func (d *PlayerMgr) Init() error {
 	d.Actor.Register(d)
 	d.Actor.Start()
 	actor.Register(d)
+	d.datas = make(map[uint64]*PlayerData)
 	return d.RegisterTimer(context.NewSimpleContext(0, "PlayerMgr.OnTick"), 5*time.Second, -1)
 }
 
@@ -67,7 +69,7 @@ func (d *PlayerMgr) OnTick(ctx framework.IContext) error {
 			continue
 		}
 		item.updateTime = now
-		actor.SendMsgTo(ctx, "PlayerPool.Save", item.PlayerData)
+		actor.SendMsgSimple(item.Uid, "PlayerPool.Save", item.PlayerData)
 	}
 	return nil
 }
@@ -75,13 +77,16 @@ func (d *PlayerMgr) OnTick(ctx framework.IContext) error {
 // 登录
 func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRsp) error {
 	// 玩家数据存在
-	if item, ok := d.datas[ctx.GetId()]; ok {
-		req.Data = item.PlayerData
-		return bus.Send(ctx, framework.Rpc(pb.NodeType_Game, "PlayerMgr.Login", ctx.GetId(), req))
+	item, ok := d.datas[ctx.GetId()]
+	if !ok {
+		item = &PlayerData{}
+		d.datas[ctx.GetId()] = item
 	}
-	item := &PlayerData{}
-	d.datas[ctx.GetId()] = item
-	return actor.SendMsgTo(ctx, "PlayerPool.Login", req, rsp)
+	if item.status != 1 {
+		return actor.SendMsgTo(ctx, "PlayerPool.Login", req, rsp)
+	}
+	req.Data = item.PlayerData
+	return bus.Send(ctx, framework.Rpc(pb.NodeType_Game, "PlayerMgr.Login", ctx.GetId(), req))
 }
 
 // 加载玩家数据
@@ -114,7 +119,7 @@ func (d *PlayerMgr) Update(ctx framework.IContext, data *pb.PlayerData) error {
 
 	// 原始数据是否加载成功?
 	if item.status != 1 {
-		return actor.SendMsgTo(ctx, "PlayerPool.Get", ctx.GetId())
+		return actor.SendMsgTo(ctx, "PlayerPool.Get")
 	}
 
 	now := time.Now().Unix()

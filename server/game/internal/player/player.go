@@ -24,6 +24,7 @@ func init() {
 	handler.RegisterCmd((*Player).Login)
 	handler.RegisterCmd((*Player).Relogin)
 	handler.RegisterCmd((*Player).Heart)
+	handler.Register0(framework.EMPTY, (*Player).OnTick)
 }
 
 func (d *Player) Init(uid uint64) {

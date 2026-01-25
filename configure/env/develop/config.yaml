@@ -16,12 +16,12 @@ redis:
     host: localhost:16379
 
 etcd:
-  topic: poker_server/local/etcd
+  topic: myplay/local/etcd
   endpoints:
     - http://localhost:12379
 
 nats:
-  topic: poker_server/local/nats
+  topic: myplay/local/nats
   endpoints: localhost:14222
 
 common:
@@ -33,30 +33,44 @@ common:
 
 client:
   1:
+    router_expire: 1800
+    discovery_expire: 20
     log_level: trace # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
     port: 10101
-
 auth:
   1:
+    router_expire: 1800
+    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
     port: 10001
-
 gate:
   1:
-    router_ttl: 1800
-    discovery_ttl: 20
+    router_expire: 1800
+    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
     port: 10101
   2:
-    router_ttl: 1800
-    discovery_ttl: 20
+    router_expire: 1800
+    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
     port: 10102
+db:
+  1:
+    router_expire: 1800
+    discovery_expire: 20
+    log_level: trace  # info, debug, warn, error, fatal
+    log_path: ./log
+game:
+  1:
+    router_expire: 1800
+    discovery_expire: 20
+    log_level: trace  # info, debug, warn, error, fatal
+    log_path: ./log
