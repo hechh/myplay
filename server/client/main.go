@@ -47,10 +47,11 @@ func main() {
 
 	// 初始化玩家
 	playerMgr := &player.PlayerMgr{}
-	playerMgr.Start()
-	util.Must(playerMgr.Init(uint64(begin), uint64(end)))
+	playerMgr.Init()
+	util.Must(playerMgr.Login(uint64(begin), uint64(end)))
 
 	util.Signal(func() {
+		playerMgr.Close()
 		gc.Close()
 		mlog.Close()
 	})

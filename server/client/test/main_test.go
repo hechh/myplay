@@ -45,7 +45,7 @@ func TestClient(t *testing.T) {
 	// 初始化玩家
 	playerMgr := &player.PlayerMgr{}
 	playerMgr.Start()
-	util.Must(playerMgr.Init(uint64(begin), uint64(end)))
+	util.Must(playerMgr.Login(uint64(begin), uint64(end)))
 
 	util.Signal(func() {
 		gc.Close()

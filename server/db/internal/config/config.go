@@ -37,7 +37,7 @@ func Load(cfg string, nodeId int32) error {
 	NodeCfg = nodeCfg
 
 	// 初始化节点
-	framework.Init(uint32(pb.NodeType_Db), &packet.Node{
+	framework.Init(uint32(pb.NodeType_Gate), &packet.Node{
 		Type: uint32(pb.NodeType_Db),
 		Id:   uint32(nodeId),
 		Name: fmt.Sprintf("Db%d", nodeId),

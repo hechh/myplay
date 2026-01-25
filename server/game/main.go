@@ -12,7 +12,10 @@ import (
 	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/bus"
 	"github.com/hechh/framework/cluster"
+	"github.com/hechh/framework/context"
 	"github.com/hechh/framework/gc"
+	"github.com/hechh/framework/handler"
+	"github.com/hechh/framework/packet"
 	"github.com/hechh/framework/router"
 	"github.com/hechh/library/async"
 	"github.com/hechh/library/database"
@@ -83,17 +86,21 @@ func main() {
 	})
 }
 
-func recv(ctx framework.IContext, body []byte) {
-	ctx.Tracef("消息中间件收到消息：%v", body)
-	head := ctx.GetHead()
+func recv(head *packet.Head, body []byte) {
+	mlog.Tracef("消息中间件收到消息：head:%v, body:%d", head, len(body))
 	if head.ActorFunc == 0 {
-		err := bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.SendToClient", head.Id, body))
+		err := bus.Send(head, framework.Rpc(pb.NodeType_Gate, "Player.SendToClient", head.Id, body))
 		if err != nil {
-			ctx.Errorf("Send发送失败: %v", err)
+			mlog.Errorf("SendToClient失败: %v", err)
 		}
 		return
 	}
-	if err := actor.Send(ctx, body); err != nil {
-		ctx.Errorf("Actor调用失败: %v", err)
+	hh := handler.Get(head.ActorFunc)
+	if hh == nil {
+		mlog.Errorf("接口(%d)未注册", head.ActorFunc)
+		return
+	}
+	if err := actor.Send(context.NewContext(head, hh.GetName()), body); err != nil {
+		mlog.Errorf("Actor调用失败: %v", err)
 	}
 }

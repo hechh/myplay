@@ -22,6 +22,7 @@ type ClientConfig struct {
 	Nats   *yaml.NatsConfig           `yaml:"nats"`
 	Common *yaml.CommonConfig         `yaml:"common"`
 	Server map[int32]*yaml.NodeConfig `yaml:"client"`
+	Gates  map[int32]*yaml.NodeConfig `yaml:"gate"`
 }
 
 func Load(cfg string, nodeId int32) error {
@@ -37,7 +38,7 @@ func Load(cfg string, nodeId int32) error {
 	NodeCfg = nodeCfg
 
 	// 初始化节点
-	framework.Init(uint32(pb.NodeType_Client), &packet.Node{
+	framework.Init(uint32(pb.NodeType_Gate), &packet.Node{
 		Type: uint32(pb.NodeType_Client),
 		Id:   uint32(nodeId),
 		Name: fmt.Sprintf("Client%d", nodeId),
@@ -46,4 +47,12 @@ func Load(cfg string, nodeId int32) error {
 	})
 
 	return nil
+}
+
+func GetWsUrl(nodeId uint32) (string, error) {
+	cfg, ok := ClientCfg.Gates[int32(nodeId)]
+	if !ok {
+		return "", uerror.Err(pb.ErrorCode_Unknown, "gate节点(%d)配置不存在", nodeId)
+	}
+	return fmt.Sprintf("ws://%s:%d/ws", cfg.Ip, cfg.Port), nil
 }

@@ -109,6 +109,7 @@ func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.Logi
 }
 
 func (d *PlayerMgr) Handle(msg *packet.Packet) error {
+	mlog.Tracef("接收到客户端消息：%v", msg)
 	hh := handler.GetCmdRpc(msg.Head.Cmd)
 	if hh == nil {
 		return uerror.Err(pb.ErrorCode_CmdNotSupported, "Cmd(%d)接口未注册", msg.Head.Cmd)
@@ -117,9 +118,9 @@ func (d *PlayerMgr) Handle(msg *packet.Packet) error {
 	case uint32(pb.CMD_LOGIN_REQ):
 		return d.Send(context.NewContext(msg.Head, "PlayerMgr.Login"), msg.Body)
 	default:
-		act := d.mgr.GetActor(msg.Head.ActorId)
+		act := d.mgr.GetActor(msg.Head.Id)
 		if act == nil {
-			return uerror.Err(pb.ErrorCode_ActorIdNotExist, "玩家(%d)不存在", msg.Head.ActorId)
+			return uerror.Err(pb.ErrorCode_ActorIdNotExist, "玩家(%d)不存在", msg.Head.Id)
 		}
 		return act.Send(context.NewContext(msg.Head, "Player.Handle"), msg.Body)
 	}

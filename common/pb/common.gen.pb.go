@@ -6,6 +6,7 @@ package pb
 
 import (
 	"github.com/golang/protobuf/proto"
+	packet "github.com/hechh/framework/packet"
 )
 
 func (d CMD) Integer() uint32 {
@@ -30,6 +31,30 @@ func (d Platform) Integer() uint32 {
 
 func (d ErrorCode) Integer() uint32 {
 	return uint32(d.Number())
+}
+
+func (d *AuthRsp) SetRspHead(v *packet.RspHead) {
+	d.Head = v
+}
+
+func (d *AuthRsp) GetRspHead() *packet.RspHead {
+	return d.Head
+}
+
+func (d *LoginRsp) SetRspHead(v *packet.RspHead) {
+	d.Head = v
+}
+
+func (d *LoginRsp) GetRspHead() *packet.RspHead {
+	return d.Head
+}
+
+func (d *HeartRsp) SetRspHead(v *packet.RspHead) {
+	d.Head = v
+}
+
+func (d *HeartRsp) GetRspHead() *packet.RspHead {
+	return d.Head
 }
 
 func (d *KickNotify) ToDB() ([]byte, error) {

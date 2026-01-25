@@ -1,15 +1,11 @@
 package player
 
 import (
-	"myplay/common/pb"
-	"myplay/common/table/global_config"
-
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/gc"
 	"github.com/hechh/framework/handler"
 	"github.com/hechh/library/mlog"
-	"github.com/hechh/library/uerror"
 )
 
 type PlayerMgr struct {
@@ -21,7 +17,7 @@ func init() {
 	handler.Register0(framework.EMPTY, (*PlayerMgr).Remove)
 }
 
-func (d *PlayerMgr) Start() {
+func (d *PlayerMgr) Init() {
 	d.mgr = new(actor.ActorMgr)
 	d.mgr.Register(&Player{})
 	d.mgr.Start()
@@ -32,17 +28,11 @@ func (d *PlayerMgr) Start() {
 	actor.Register(d)
 }
 
-func (d *PlayerMgr) Stop() {
-	id := d.GetActorId()
-	d.Actor.Stop()
-	mlog.Infof("PlayerMgr.Close(%d)", id)
-	d.mgr.Stop()
-}
-
 func (d *PlayerMgr) Close() {
-	d.Stop()
+	id := d.GetActorId()
 	d.Done()
 	d.Wait()
+	mlog.Infof("PlayerMgr(%d)", id)
 }
 
 func (d *PlayerMgr) Remove(ctx framework.IContext) error {
@@ -53,14 +43,9 @@ func (d *PlayerMgr) Remove(ctx framework.IContext) error {
 }
 
 // 初始化玩家
-func (d *PlayerMgr) Init(begin uint64, end uint64) error {
-	cfg := global_config.SGet(0)
-	if cfg == nil {
-		return uerror.Err(pb.ErrorCode_TableNotFound, "配置不存在")
-	}
-
+func (d *PlayerMgr) Login(begin uint64, end uint64) error {
 	for i := begin; i <= end; i++ {
-		uid := cfg.UidBeginValue + i
+		uid := i
 		usr := &Player{}
 		usr.Init(uid, 1)
 		if err := usr.Login(); err != nil {

@@ -30,7 +30,7 @@ func (d *Frame) Decode(buf []byte) (*packet.Packet, error) {
 	}
 
 	// 获取rpc
-	hh := handler.GetCmdRpc(msg.Head.Cmd)
+	hh := handler.GetCmdRpc(msg.Head.Cmd - msg.Head.Cmd%2)
 	if hh == nil {
 		return msg, uerror.Err(pb.ErrorCode_CmdNotSupported, "Cmd(%d)没有注册", msg.Head.Cmd)
 	}
