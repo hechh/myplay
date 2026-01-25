@@ -4,7 +4,7 @@ import (
 	"myplay/common/pb"
 	"myplay/server/game/internal/player/domain"
 
-	"github.com/gogo/protobuf/proto"
+	"github.com/golang/protobuf/proto"
 )
 
 type BaseFun struct {

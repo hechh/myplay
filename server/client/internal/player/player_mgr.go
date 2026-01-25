@@ -6,6 +6,7 @@ import (
 	"github.com/hechh/framework/gc"
 	"github.com/hechh/framework/handler"
 	"github.com/hechh/library/mlog"
+	"github.com/hechh/library/uerror"
 )
 
 type PlayerMgr struct {
@@ -48,17 +49,16 @@ func (d *PlayerMgr) Remove(ctx framework.IContext) error {
 }
 
 // 初始化玩家
-func (d *PlayerMgr) Login(begin uint64, end uint64) error {
-	for i := begin; i <= end; i++ {
-		uid := i
-		usr := &Player{}
-		usr.Init(uid, 1)
-		if err := usr.Login(); err != nil {
-			return err
-		}
-		if !d.mgr.AddActor(usr) {
-			mlog.Errorf("创建玩家(%d)失败", uid)
-		}
+func (d *PlayerMgr) Login(uid uint64, nodeId uint32) error {
+	usr := &Player{}
+	usr.Init(uid, nodeId)
+	// 登录
+	if err := usr.Login(); err != nil {
+		return err
+	}
+	if !d.mgr.AddActor(usr) {
+		usr.Close()
+		return uerror.Err(-1, "玩家(%d)登录失败", uid)
 	}
 	return nil
 }

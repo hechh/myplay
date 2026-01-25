@@ -33,6 +33,7 @@ type Player struct {
 
 func init() {
 	handler.Register0(framework.EMPTY, (*Player).OnTick)
+	handler.RegisterV1(framework.BYTES, (*Player).Send)
 }
 
 func (d *Player) Init(uid uint64, nodeId uint32) {
@@ -48,31 +49,6 @@ func (d *Player) Close() {
 	d.Done()
 	d.Wait()
 	mlog.Infof("Player(%d)关闭成功", uid)
-}
-
-// 创建账号
-func (d *Player) build() error {
-	usr, err := account_data.Query(nil, d.uid)
-	if err != nil {
-		return err
-	}
-	if usr == nil {
-		usr = &pb.AccountData{
-			Uid:        d.uid,
-			Name:       fmt.Sprintf("test%d", d.uid),
-			Email:      fmt.Sprintf("%d@qq.com", d.uid),
-			Phone:      fmt.Sprintf("135%d", d.uid),
-			Password:   "12345",
-			CreateTime: time.Now().Unix(),
-			Platform:   pb.Platform_Desktop,
-			LoginType:  pb.LoginType_Account,
-		}
-		if err := account_data.Insert(nil, usr); err != nil {
-			return err
-		}
-	}
-	d.name = usr.Name
-	return nil
 }
 
 func (d *Player) Login() error {
@@ -108,6 +84,31 @@ func (d *Player) Login() error {
 	return d.write(uint32(pb.CMD_LOGIN_REQ), &pb.LoginReq{Token: str})
 }
 
+// 创建账号
+func (d *Player) build() error {
+	usr, err := account_data.Query(nil, d.uid)
+	if err != nil {
+		return err
+	}
+	if usr == nil {
+		usr = &pb.AccountData{
+			Uid:        d.uid,
+			Name:       fmt.Sprintf("test%d", d.uid),
+			Email:      fmt.Sprintf("%d@qq.com", d.uid),
+			Phone:      fmt.Sprintf("135%d", d.uid),
+			Password:   "12345",
+			CreateTime: time.Now().Unix(),
+			Platform:   pb.Platform_Desktop,
+			LoginType:  pb.LoginType_Account,
+		}
+		if err := account_data.Insert(nil, usr); err != nil {
+			return err
+		}
+	}
+	d.name = usr.Name
+	return nil
+}
+
 func (d *Player) write(cmd uint32, msg any) error {
 	rpc := handler.GetCmdRpc(cmd)
 	if rpc == nil {
@@ -126,6 +127,16 @@ func (d *Player) write(cmd uint32, msg any) error {
 			ActorId:   d.uid,
 		},
 		Body: buf,
+	})
+	return err
+}
+
+func (d *Player) Send(ctx framework.IContext, body []byte) error {
+	head := ctx.GetHead()
+	head.Seq = atomic.AddUint32(&d.sequence, 1)
+	_, err := d.client.Write(&packet.Packet{
+		Head: head,
+		Body: body,
 	})
 	return err
 }

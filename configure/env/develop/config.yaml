@@ -31,14 +31,7 @@ common:
   token_key: gH7%kL9!qW2#sD4*FpV6&nZ8@xJ0^yT1
   aes_key: 1234567890123456
 
-client:
-  1:
-    router_expire: 1800
-    discovery_expire: 20
-    log_level: trace # info, debug, warn, error, fatal
-    log_path: ./log
-    ip: localhost
-    port: 10101
+
 auth:
   1:
     router_expire: 1800
@@ -47,6 +40,7 @@ auth:
     log_path: ./log
     ip: localhost
     port: 10001
+
 gate:
   1:
     router_expire: 1800
@@ -62,12 +56,23 @@ gate:
     log_path: ./log
     ip: localhost
     port: 10102
+  
+client:
+  1:
+    router_expire: 1800
+    discovery_expire: 20
+    log_level: trace # info, debug, warn, error, fatal
+    log_path: ./log
+    ip: localhost
+    port: 10201
+
 db:
   1:
     router_expire: 1800
     discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
+
 game:
   1:
     router_expire: 1800

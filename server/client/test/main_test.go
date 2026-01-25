@@ -19,9 +19,8 @@ import (
 
 func TestClient(t *testing.T) {
 	cfg := "../../../configure/env/develop/config.yaml"
-	nodeId := 1
-	begin := int64(1)
-	end := int64(1)
+	nodeId := uint32(1)
+	uid := uint64(1)
 
 	// 加载配置
 	util.Must(config.Load(cfg, int32(nodeId)))
@@ -45,7 +44,7 @@ func TestClient(t *testing.T) {
 	// 初始化玩家
 	playerMgr := &player.PlayerMgr{}
 	playerMgr.Start()
-	util.Must(playerMgr.Login(uint64(begin), uint64(end)))
+	util.Must(playerMgr.Login(uid, nodeId))
 
 	util.Signal(func() {
 		gc.Close()
