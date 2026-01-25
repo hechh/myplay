@@ -33,18 +33,14 @@ func init() {
 	handler.RegisterV1(framework.BYTES, (*Player).SendToClient) // 消息处理
 }
 
-func NewPlayer(head *packet.Head, now int64) *Player {
-	return &Player{
-		socketId:  head.SocketId,
-		loginTime: now,
-		extra:     head.Extra,
-		version:   head.Version,
-	}
-}
-
-func (d *Player) Init() {
+func (d *Player) Init(head *packet.Head, now int64) {
 	d.Actor.Register(d)
+	d.Actor.SetActorId(head.Id)
 	d.Actor.Start()
+	d.socketId = head.SocketId
+	d.loginTime = now
+	d.extra = head.Extra
+	d.version = head.Version
 }
 
 func (d *Player) Close() {

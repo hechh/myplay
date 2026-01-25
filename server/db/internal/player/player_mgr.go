@@ -1,7 +1,6 @@
 package player
 
 import (
-	"encoding/json"
 	"myplay/common/pb"
 	"time"
 
@@ -46,8 +45,6 @@ func (d *PlayerMgr) Close() {
 	d.Actor.Done()
 	for _, item := range d.datas {
 		if item.status != 1 {
-			buf, _ := json.Marshal(item.PlayerData)
-			mlog.Errorf("增量数据保存失败: %s", string(buf))
 			continue
 		}
 		actor.SendMsgSimple(item.Uid, "PlayerPool.Save", item.PlayerData)
@@ -57,17 +54,21 @@ func (d *PlayerMgr) Close() {
 }
 
 func (d *PlayerMgr) Remove(ctx framework.IContext) error {
-	delete(d.datas, ctx.GetId())
+	if val, ok := d.datas[ctx.GetId()]; ok {
+		delete(d.datas, ctx.GetId())
+		mlog.Errorf("删除玩家缓存数据：%v", val)
+	}
 	return nil
 }
 
 func (d *PlayerMgr) OnTick(ctx framework.IContext) error {
 	now := time.Now().Unix()
 	for _, item := range d.datas {
-		if item.status != 1 || now-item.updateTime < 5 {
+		if item.status != 1 || item.change <= 0 || now-item.updateTime < 5 {
 			continue
 		}
 		item.updateTime = now
+		mlog.Tracef("OnTick数据：%v", item)
 		actor.SendMsgSimple(item.Uid, "PlayerPool.Save", item.PlayerData)
 	}
 	return nil

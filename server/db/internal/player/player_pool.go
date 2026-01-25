@@ -72,7 +72,6 @@ func (d *PlayerPool) Get(ctx framework.IContext) error {
 		return err
 	}
 	if data == nil {
-		ctx.Errorf("玩家账号不存在")
 		return actor.SendMsgTo(ctx, "PlayerMgr.Remove")
 	}
 	return actor.SendMsgTo(ctx, "PlayerMgr.Load", data)

@@ -99,8 +99,8 @@ func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.Logi
 	}
 
 	// 创建新玩家
-	usr := NewPlayer(head, now.Unix())
-	usr.Init()
+	usr := &Player{}
+	usr.Init(head, now.Unix())
 	if d.mgr.AddActor(usr) {
 		return usr.SendMsg(ctx.To("Player.Login"), req, rsp)
 	}
