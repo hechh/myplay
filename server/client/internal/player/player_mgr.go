@@ -33,6 +33,11 @@ func (d *PlayerMgr) Close() {
 	d.Done()
 	d.Wait()
 	mlog.Infof("PlayerMgr(%d)", id)
+
+	mgrId := d.mgr.GetActorId()
+	d.mgr.Done()
+	d.mgr.Wait()
+	mlog.Infof("PlayerMgr.ActorMgr(%d)关闭成功", mgrId)
 }
 
 func (d *PlayerMgr) Remove(ctx framework.IContext) error {

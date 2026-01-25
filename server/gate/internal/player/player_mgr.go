@@ -46,6 +46,11 @@ func (d *PlayerMgr) Close() {
 	d.Done()
 	d.Wait()
 	mlog.Infof("PlayerMgr(%d)关闭成功", id)
+
+	mgrId := d.mgr.GetActorId()
+	d.mgr.Done()
+	d.mgr.Wait()
+	mlog.Infof("PlayerMgr.ActorMgr(%d)关闭成功", mgrId)
 }
 
 // 删除玩家

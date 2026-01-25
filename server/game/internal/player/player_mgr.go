@@ -35,6 +35,11 @@ func (d *PlayerMgr) Close() {
 	d.Done()
 	d.Wait()
 	mlog.Infof("PlayerMgr(%d)关闭成功", id)
+
+	mgrId := d.mgr.GetActorId()
+	d.mgr.Done()
+	d.mgr.Wait()
+	mlog.Infof("PlayerMgr.ActorMgr(%d)关闭成功", mgrId)
 }
 
 func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRsp) error {
