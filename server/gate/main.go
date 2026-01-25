@@ -85,6 +85,7 @@ func main() {
 }
 
 func recv(ctx framework.IContext, body []byte) {
+	ctx.Tracef("消息中间件收到消息：%v", body)
 	head := ctx.GetHead()
 	if head.ActorFunc == 0 {
 		if err := actor.SendMsgTo(ctx, "Player.SendToClient", body); err != nil {

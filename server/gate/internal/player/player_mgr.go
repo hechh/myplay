@@ -78,11 +78,13 @@ func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.Logi
 
 	// 无条件剔除其他节点登录
 	now := time.Now()
-	err = bus.Broadcast(ctx.Copy(), framework.Rpc(pb.NodeType_Gate, "Player.Kick", tok.Uid, &pb.KickNotify{
+	item := &pb.KickNotify{
 		Uid:       tok.Uid,
 		LoginTime: now.UnixMilli(),
 		NodeId:    framework.GetSelfId(),
-	}))
+	}
+	ctx.Tracef("推送剔除玩家广播：%v", item)
+	err = bus.Broadcast(ctx.Copy(), framework.Rpc(pb.NodeType_Gate, "Player.Kick", tok.Uid, item))
 	if err != nil {
 		return err
 	}
@@ -103,7 +105,7 @@ func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.Logi
 		return usr.SendMsg(ctx.To("Player.Login"), req, rsp)
 	}
 	usr.Close()
-	return uerror.Err(pb.ErrorCode_ServiceHasStopped, "已经停止服务")
+	return uerror.New(pb.ErrorCode_ServiceHasStopped, "已经停止服务")
 }
 
 func (d *PlayerMgr) Handle(msg *packet.Packet) error {

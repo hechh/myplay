@@ -59,6 +59,7 @@ func (d *Player) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRs
 	head := ctx.GetHead()
 	if d.socketId > 0 && d.socketId != head.SocketId {
 		// 关闭网络
+		ctx.Infof("关闭websocket(%d)", d.socketId)
 		socket.Stop(d.socketId)
 	}
 
@@ -67,8 +68,7 @@ func (d *Player) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRs
 	d.extra = head.Extra
 	d.version = head.Version
 
-	// todo: 转发到db服务
-	return nil
+	return bus.Send(ctx, framework.Rpc(pb.NodeType_Db, "PlayerMgr.Login", ctx.GetId(), req))
 }
 
 func (d *Player) LoginSuccess(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRsp) error {
@@ -91,6 +91,7 @@ func (d *Player) SendToClient(ctx framework.IContext, body []byte) error {
 }
 
 func (d *Player) Kick(ctx framework.IContext, event *pb.KickNotify) error {
+	ctx.Tracef("Kick req:%v", event)
 	if event.Uid != d.GetActorId() || framework.GetSelfId() == event.NodeId {
 		return nil
 	}
