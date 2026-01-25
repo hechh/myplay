@@ -8,7 +8,6 @@ import (
 
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/bus"
-	"github.com/hechh/framework/context"
 	"github.com/hechh/framework/handler"
 	"github.com/hechh/framework/packet"
 	"github.com/hechh/library/mlog"
@@ -77,7 +76,7 @@ func (d *Player) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRs
 		}
 	}
 
-	d.RegisterTimer(context.NewSimpleContext(ctx.GetActorId(), "Player.OnTick"), time.Second, -1)
+	d.RegisterTimer("Player.OnTick", time.Second, -1)
 	return bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.LoginSuccess", ctx.GetId(), req))
 }
 

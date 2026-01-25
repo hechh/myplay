@@ -161,7 +161,7 @@ func (d *Player) loop() {
 				actor.SendMsg(context.NewSimpleContext(d.uid, "PlayerMgr.Remove"))
 				return
 			}
-			d.RegisterTimer(context.NewSimpleContext(d.uid, "Player.Heart"), 3*time.Second, -1)
+			d.RegisterTimer("Player.Heart", 3*time.Second, -1)
 			mlog.Infof("玩家(%d)登录成功: %v", d.uid, rsp)
 		default:
 			rsp, err := req.GetRsp(pack)

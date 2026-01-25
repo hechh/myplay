@@ -8,7 +8,6 @@ import (
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/bus"
-	"github.com/hechh/framework/context"
 	"github.com/hechh/framework/handler"
 	"github.com/hechh/library/mlog"
 	"github.com/hechh/library/util"
@@ -39,7 +38,7 @@ func (d *PlayerMgr) Init() error {
 	d.Actor.Start()
 	actor.Register(d)
 	d.datas = make(map[uint64]*PlayerData)
-	return d.RegisterTimer(context.NewSimpleContext(0, "PlayerMgr.OnTick"), 5*time.Second, -1)
+	return d.RegisterTimer("PlayerMgr.OnTick", 5*time.Second, -1)
 }
 
 func (d *PlayerMgr) Close() {
