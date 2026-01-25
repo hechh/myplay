@@ -24,6 +24,7 @@ func init() {
 func (d *PlayerMgr) Start() {
 	d.mgr = new(actor.ActorMgr)
 	d.mgr.Register(&Player{})
+	d.mgr.Start()
 	actor.Register(d.mgr)
 
 	d.Actor.Register(d)

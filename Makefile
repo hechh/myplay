@@ -78,6 +78,6 @@ docker_run:
 	-cd ${gen_path_output} && docker-compose -f docker_compose.yaml up -d
 develop:
 	@mkdir -p ${gen_path_output}
-	@cp -rf ./configure/env/develop/* ./configure/data ${path_scripts}/* ./output
+	@cp -rf ./configure/env/develop/* ./configure/data ${path_scripts}/* ${gen_path_output} && chmod 755 ${gen_path_output}/*.sh
 
 
