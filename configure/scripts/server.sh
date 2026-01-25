@@ -16,6 +16,10 @@ case $1 in
 start)
     start
     ;;
+restart)
+    stop
+    start
+    ;;
 stop)
     stop
     ;;
