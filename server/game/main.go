@@ -87,7 +87,6 @@ func main() {
 }
 
 func recv(head *packet.Head, body []byte) {
-	mlog.Tracef("消息中间件收到消息：head:%v, body:%d", head, len(body))
 	if head.ActorFunc == 0 {
 		err := bus.Send(head, framework.Rpc(pb.NodeType_Gate, "Player.SendToClient", head.Id, body))
 		if err != nil {
