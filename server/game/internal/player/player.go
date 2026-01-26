@@ -11,7 +11,6 @@ import (
 	"github.com/hechh/framework/handler"
 	"github.com/hechh/framework/packet"
 	"github.com/hechh/library/mlog"
-	"github.com/hechh/library/uerror"
 )
 
 type Player struct {
@@ -75,28 +74,20 @@ func (d *Player) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRs
 			return err
 		}
 	}
-
 	d.RegisterTimer("Player.OnTick", time.Second, -1)
+	d.heartTime = time.Now().Unix()
 	return bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.LoginSuccess", ctx.GetId(), &pb.LoginReq{}))
 }
 
 func (d *Player) Relogin(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRsp) error {
+	d.heartTime = time.Now().Unix()
 	return bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.LoginSuccess", ctx.GetId(), &pb.LoginReq{}))
 }
 
 // 心跳请求
-func (p *Player) Heart(ctx framework.IContext, req *pb.HeartReq, rsp *pb.HeartRsp) error {
-	now := time.Now().Unix()
-	if p.heartTime <= 0 {
-		p.heartTime = now
-	}
-	if now-p.heartTime >= framework.HeartTimeExpire {
-		// todo: 剔除玩家
-		return uerror.New(pb.ErrorCode_HeartTimeOver, "心跳超时")
-	}
-
-	p.heartTime = now
+func (d *Player) Heart(ctx framework.IContext, req *pb.HeartReq, rsp *pb.HeartRsp) error {
+	d.heartTime = time.Now().Unix()
 	rsp.BeginTime = req.BeginTime
-	rsp.EndTime = now
+	rsp.EndTime = d.heartTime
 	return nil
 }

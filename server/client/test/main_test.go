@@ -38,7 +38,7 @@ func TestPlayer2(t *testing.T) {
 		t.Log(err)
 		return
 	}
-	usr2 := uint64(11)
+	usr2 := uint64(10)
 	if err := mock.Login(usr2, 2); err != nil {
 		t.Log(err)
 		return
