@@ -1,8 +1,6 @@
 package player
 
 import (
-	"fmt"
-	"myplay/common/dao/account_data"
 	"myplay/common/pb"
 	"myplay/common/token"
 	"myplay/server/client/internal/config"
@@ -28,7 +26,6 @@ type Player struct {
 	status   int32                // 登录状态
 	name     string
 	uid      uint64
-	nodeId   uint32
 }
 
 func init() {
@@ -36,33 +33,15 @@ func init() {
 	handler.RegisterV1(framework.BYTES, (*Player).Send)
 }
 
-func (d *Player) Init(uid uint64, nodeId uint32) {
+func (d *Player) Init(uid uint64, name string, url string) error {
 	d.Actor.Register(d)
 	d.Actor.SetActorId(uid)
 	d.Actor.Start()
 	d.uid = uid
-	d.nodeId = nodeId
-}
+	d.name = name
 
-func (d *Player) Close() {
-	uid := d.GetActorId()
-	d.Done()
-	d.Wait()
-	mlog.Infof("Player(%d)关闭成功", uid)
-}
-
-func (d *Player) Login() error {
-	// 生成玩家
-	if err := d.build(); err != nil {
-		return err
-	}
-
-	// 建立连接
-	wsurl, err := config.GetWsUrl(d.nodeId)
-	if err != nil {
-		return err
-	}
-	ws, _, err := websocket.DefaultDialer.Dial(wsurl, nil)
+	// 简历 ws 链接
+	ws, _, err := websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
 		return err
 	}
@@ -84,29 +63,11 @@ func (d *Player) Login() error {
 	return d.write(uint32(pb.CMD_LOGIN_REQ), &pb.LoginReq{Token: str})
 }
 
-// 创建账号
-func (d *Player) build() error {
-	usr, err := account_data.Query(nil, d.uid)
-	if err != nil {
-		return err
-	}
-	if usr == nil {
-		usr = &pb.AccountData{
-			Uid:        d.uid,
-			Name:       fmt.Sprintf("test%d", d.uid),
-			Email:      fmt.Sprintf("%d@qq.com", d.uid),
-			Phone:      fmt.Sprintf("135%d", d.uid),
-			Password:   "12345",
-			CreateTime: time.Now().Unix(),
-			Platform:   pb.Platform_Desktop,
-			LoginType:  pb.LoginType_Account,
-		}
-		if err := account_data.Insert(nil, usr); err != nil {
-			return err
-		}
-	}
-	d.name = usr.Name
-	return nil
+func (d *Player) Close() {
+	uid := d.GetActorId()
+	d.Done()
+	d.Wait()
+	mlog.Infof("Player(%d)关闭成功", uid)
 }
 
 func (d *Player) write(cmd uint32, msg any) error {
@@ -145,22 +106,6 @@ func (d *Player) OnTick(ctx framework.IContext) error {
 	return d.write(uint32(pb.CMD_HEART_REQ), &pb.HeartReq{BeginTime: time.Now().Unix()})
 }
 
-func (d *Player) response(head *packet.Head, body []byte) (any, error) {
-	hh := handler.GetCmdRpc(head.Cmd - 1)
-	if hh == nil {
-		return nil, uerror.Err(-1, "cmd(%d)未注册", head.Cmd)
-	}
-	rsp := hh.New(1)
-	if err := hh.Unmarshal(body, rsp); err != nil {
-		return nil, err
-	}
-	irsp, _ := rsp.(framework.IResponse)
-	if msg := irsp.GetRspHead(); msg != nil {
-		return nil, uerror.Err(msg.Code, msg.Msg)
-	}
-	return rsp, nil
-}
-
 func (d *Player) loop() {
 	for {
 		pack, err := d.client.Read()
@@ -194,4 +139,20 @@ func (d *Player) loop() {
 			}
 		}
 	}
+}
+
+func (d *Player) response(head *packet.Head, body []byte) (any, error) {
+	hh := handler.GetCmdRpc(head.Cmd - 1)
+	if hh == nil {
+		return nil, uerror.Err(-1, "cmd(%d)未注册", head.Cmd)
+	}
+	rsp := hh.New(1)
+	if err := hh.Unmarshal(body, rsp); err != nil {
+		return nil, err
+	}
+	irsp, _ := rsp.(framework.IResponse)
+	if msg := irsp.GetRspHead(); msg != nil {
+		return nil, uerror.Err(msg.Code, msg.Msg)
+	}
+	return rsp, nil
 }

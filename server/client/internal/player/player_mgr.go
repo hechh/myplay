@@ -1,6 +1,12 @@
 package player
 
 import (
+	"fmt"
+	"myplay/common/dao/account_data"
+	"myplay/common/pb"
+	"myplay/server/client/internal/config"
+	"time"
+
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/gc"
@@ -48,12 +54,45 @@ func (d *PlayerMgr) Remove(ctx framework.IContext) error {
 	return nil
 }
 
+// 创建账号
+func (d *PlayerMgr) get(uid uint64) (*pb.AccountData, error) {
+	usr, err := account_data.Query(nil, uid)
+	if err != nil {
+		return nil, err
+	}
+	if usr != nil {
+		return usr, nil
+	}
+	usr = &pb.AccountData{
+		Uid:        uid,
+		Name:       fmt.Sprintf("test%d", uid),
+		Email:      fmt.Sprintf("%d@qq.com", uid),
+		Phone:      fmt.Sprintf("135%d", uid),
+		Password:   "12345",
+		CreateTime: time.Now().Unix(),
+		Platform:   pb.Platform_Desktop,
+		LoginType:  pb.LoginType_Account,
+	}
+	if err := account_data.Insert(nil, usr); err != nil {
+		return nil, err
+	}
+	return usr, nil
+}
+
 // 初始化玩家
 func (d *PlayerMgr) Login(uid uint64, nodeId uint32) error {
+	data, err := d.get(uid)
+	if err != nil {
+		return err
+	}
+	// 获取 ws 链接
+	url, err := config.GetWsUrl(nodeId)
+	if err != nil {
+		return err
+	}
+	// 创建玩家客户端
 	usr := &Player{}
-	usr.Init(uid, nodeId)
-	// 登录
-	if err := usr.Login(); err != nil {
+	if err := usr.Init(uid, data.Name, url); err != nil {
 		return err
 	}
 	if !d.mgr.AddActor(usr) {

@@ -22,4 +22,5 @@ enum ErrorCode {
   UnlockFailed      = 110;
   HeartTimeOver     = 111;
   ParameterInvalid  = 112;
+  ActorNotRegistered = 113;
 }
