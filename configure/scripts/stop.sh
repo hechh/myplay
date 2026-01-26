@@ -8,9 +8,9 @@ if [ $# -lt 2 ]; then
     exit 1
 fi
 
-PIDS=$(ps -ef | grep ${bin_file} | grep "id=${3}" | grep -v grep | awk '{print $2}')
+PIDS=$(ps -ef | grep ${bin_file} | grep "id=${2}" | grep -v grep | awk '{print $2}')
 if [ -z "${PIDS}" ]; then
-    echo "服务已经关闭 ${1}"
+    echo "服务已经关闭 ${1}${2}"
     exit 1
 fi
 

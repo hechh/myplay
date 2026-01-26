@@ -35,7 +35,7 @@ func main() {
 	flag.StringVar(&mode, "mode", "debug", "启动模式")
 	flag.StringVar(&cfg, "config", "config.yaml", "游戏配置文件")
 	flag.IntVar(&nodeId, "id", 1, "服务ID")
-	flag.Int64Var(&uid, "uid", 1, "开始uid")
+	flag.Int64Var(&uid, "uid", 0, "开始uid")
 	flag.Parse()
 
 	// 加载配置
@@ -59,7 +59,9 @@ func main() {
 
 	// 初始化玩家
 	playerMgr.Init()
-	util.Must(playerMgr.Login(uint64(uid), uint32(nodeId)))
+	if uid > 0 {
+		util.Must(playerMgr.Login(uint64(uid), uint32(nodeId)))
+	}
 
 	r := gin.Default()
 	r.POST("/send", send)

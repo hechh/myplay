@@ -64,6 +64,7 @@ func (d *PlayerMgr) Remove(ctx framework.IContext) error {
 // 登录
 func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRsp) error {
 	// 解析 token
+	ctx.Tracef("解析token")
 	tok, err := token.ParseToken(req.Token, config.GateCfg.Common.TokenKey)
 	if err != nil {
 		return err
@@ -72,12 +73,15 @@ func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.Logi
 	head.Id = tok.Uid
 
 	// 玩家已经在线
+	ctx.Tracef("玩家是否已经在线")
 	if usr := d.mgr.GetActor(tok.Uid); usr != nil {
 		return usr.SendMsg(ctx.To("Player.Login"), req, rsp)
 	}
 
 	// 加载全局锁
+	ctx.Tracef("全局加锁")
 	if err := login_lock.Lock(head.Id, framework.GetSelfId(), 10*time.Second); err != nil {
+		ctx.Tracef("全局加锁失败: %v", err)
 		return err
 	}
 
@@ -91,6 +95,7 @@ func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.Logi
 	ctx.Tracef("推送剔除玩家广播：%v", item)
 	err = bus.Broadcast(ctx.Copy(), framework.Rpc(pb.NodeType_Gate, "Player.Kick", tok.Uid, item))
 	if err != nil {
+		ctx.Tracef("推送剔除玩家广播失败：%v", err)
 		return err
 	}
 

@@ -30,7 +30,7 @@ func Login(uid uint64, nodeId uint32) error {
 	if err != nil {
 		return err
 	}
-	cli.Header.Set("Content-Type", "application/octet-stream")
+	cli.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	client := &http.Client{Timeout: 5 * time.Second}
 	resp, err := client.Do(cli)
 	if err != nil {
@@ -70,7 +70,7 @@ func Send(uid uint64, aid uint64, cmd uint32, msgs ...any) error {
 	if err != nil {
 		return err
 	}
-	cli.Header.Set("Content-Type", "application/octet-stream")
+	cli.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	client := &http.Client{Timeout: 5 * time.Second}
 	resp, err := client.Do(cli)
 	if err != nil {
