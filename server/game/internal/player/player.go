@@ -77,11 +77,11 @@ func (d *Player) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRs
 	}
 
 	d.RegisterTimer("Player.OnTick", time.Second, -1)
-	return bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.LoginSuccess", ctx.GetId(), req))
+	return bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.LoginSuccess", ctx.GetId(), &pb.LoginReq{}))
 }
 
 func (d *Player) Relogin(ctx framework.IContext, req *pb.LoginReq, rsp *pb.LoginRsp) error {
-	return bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.LoginSuccess", ctx.GetId(), req))
+	return bus.Send(ctx, framework.Rpc(pb.NodeType_Gate, "Player.LoginSuccess", ctx.GetId(), &pb.LoginReq{}))
 }
 
 // 心跳请求
