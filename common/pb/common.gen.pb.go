@@ -6,7 +6,6 @@ package pb
 
 import (
 	"github.com/golang/protobuf/proto"
-	packet "github.com/hechh/framework/packet"
 )
 
 func (d CMD) Integer() uint32 {
@@ -33,28 +32,28 @@ func (d ErrorCode) Integer() uint32 {
 	return uint32(d.Number())
 }
 
-func (d *AuthRsp) SetRspHead(v *packet.RspHead) {
-	d.Head = v
+func (d *AuthRsp) SetRspHead(code int32, msg string) {
+	d.Head = &RspHead{Code: code, Msg: msg}
 }
 
-func (d *AuthRsp) GetRspHead() *packet.RspHead {
-	return d.Head
+func (d *AuthRsp) GetRspHead() (int32, string) {
+	return d.Head.Code, d.Head.Msg
 }
 
-func (d *LoginRsp) SetRspHead(v *packet.RspHead) {
-	d.Head = v
+func (d *LoginRsp) SetRspHead(code int32, msg string) {
+	d.Head = &RspHead{Code: code, Msg: msg}
 }
 
-func (d *LoginRsp) GetRspHead() *packet.RspHead {
-	return d.Head
+func (d *LoginRsp) GetRspHead() (int32, string) {
+	return d.Head.Code, d.Head.Msg
 }
 
-func (d *HeartRsp) SetRspHead(v *packet.RspHead) {
-	d.Head = v
+func (d *HeartRsp) SetRspHead(code int32, msg string) {
+	d.Head = &RspHead{Code: code, Msg: msg}
 }
 
-func (d *HeartRsp) GetRspHead() *packet.RspHead {
-	return d.Head
+func (d *HeartRsp) GetRspHead() (int32, string) {
+	return d.Head.Code, d.Head.Msg
 }
 
 func (d *KickNotify) ToDB() ([]byte, error) {
@@ -149,6 +148,20 @@ func (d *ItemData) ToDB() ([]byte, error) {
 }
 
 func (d *ItemData) FromDB(val []byte) error {
+	if len(val) <= 0 {
+		return nil
+	}
+	return proto.Unmarshal(val, d)
+}
+
+func (d *RspHead) ToDB() ([]byte, error) {
+	if d == nil {
+		return nil, nil
+	}
+	return proto.Marshal(d)
+}
+
+func (d *RspHead) FromDB(val []byte) error {
 	if len(val) <= 0 {
 		return nil
 	}

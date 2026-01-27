@@ -151,8 +151,8 @@ func (d *Player) response(head *packet.Head, body []byte) (any, error) {
 		return nil, err
 	}
 	irsp, _ := rsp.(framework.IResponse)
-	if msg := irsp.GetRspHead(); msg != nil {
-		return nil, uerror.Err(msg.Code, msg.Msg)
+	if code, msg := irsp.GetRspHead(); code != 0 {
+		return nil, uerror.Err(code, msg)
 	}
 	return rsp, nil
 }

@@ -44,9 +44,9 @@ func (d *Request) GetRsp(pack *packet.Packet) (proto.Message, error) {
 		return nil, err
 	}
 	irsp, _ := rsp.(framework.IResponse)
-	msg := irsp.GetRspHead()
-	if msg != nil {
-		return nil, uerror.Err(msg.Code, msg.Msg)
+	code, msg := irsp.GetRspHead()
+	if code != 0 {
+		return nil, uerror.Err(code, msg)
 	}
 	d.rsp.Store(pack)
 	return irsp, nil

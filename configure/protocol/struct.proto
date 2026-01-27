@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package myplay;
+
+option go_package = "./pb";
+
+message RspHead {
+  int32  Code = 1;
+  string Msg  = 2;
+}

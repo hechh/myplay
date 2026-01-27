@@ -5,22 +5,22 @@ package myplay;
 option go_package = "./pb";
 
 enum ErrorCode {
-  Success = 0; // 成功
-  Failed  = 1; // 失败
-  Unknown = 2; // 位置错误
+  Success = 0;  // 成功
+  Failed  = 1;  // 失败
+  Unknown = 2;  // 位置错误
 
-  TableNotFound     = 100; // table不存在
-  RedisFailed       = 101; // redis错误
-  MysqlFailed       = 102;
-  RpcNotRegistered  = 103;
-  ServiceHasStopped = 104;
-  CmdNotSupported   = 105;
-  ActorIdNotExist   = 106;
-  PlayerNotOnline   = 107;
-  RpcNotSupported   = 108;
-  LockFailed        = 109;
-  UnlockFailed      = 110;
-  HeartTimeOver     = 111;
-  ParameterInvalid  = 112;
+  TableNotFound      = 100;  // table不存在
+  RedisFailed        = 101;  // redis错误
+  MysqlFailed        = 102;
+  RpcNotRegistered   = 103;
+  ServiceHasStopped  = 104;
+  CmdNotSupported    = 105;
+  ActorIdNotExist    = 106;
+  PlayerNotOnline    = 107;
+  RpcNotSupported    = 108;
+  LockFailed         = 109;
+  UnlockFailed       = 110;
+  HeartTimeOver      = 111;
+  ParameterInvalid   = 112;
   ActorNotRegistered = 113;
 }

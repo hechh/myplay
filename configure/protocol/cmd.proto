@@ -6,8 +6,8 @@ option go_package = "./pb";
 
 enum CMD {
   CMD_EMPTY = 0;
-  LOGIN_REQ = 100000; // 登录请求
+  LOGIN_REQ = 100000;  // 登录请求
   LOGIN_RSP = 100001;
-  HEART_REQ = 100002; // 心跳请求
+  HEART_REQ = 100002;  // 心跳请求
   HEART_RSP = 100003;
 }
