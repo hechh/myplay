@@ -10,7 +10,6 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang/protobuf/proto"
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/actor"
 	"github.com/hechh/framework/context"
@@ -22,6 +21,7 @@ import (
 	"github.com/hechh/library/mlog"
 	"github.com/hechh/library/util"
 	"github.com/spf13/cast"
+	"google.golang.org/protobuf/proto"
 )
 
 var (

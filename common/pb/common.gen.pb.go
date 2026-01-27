@@ -5,7 +5,7 @@
 package pb
 
 import (
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 )
 
 func (d CMD) Integer() uint32 {

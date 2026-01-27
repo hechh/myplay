@@ -4,11 +4,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/hechh/framework"
 	"github.com/hechh/framework/handler"
 	"github.com/hechh/framework/packet"
 	"github.com/hechh/library/uerror"
+	"google.golang.org/protobuf/proto"
 )
 
 type Request struct {

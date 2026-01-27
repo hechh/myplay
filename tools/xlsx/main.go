@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 
+	"github.com/hechh/library/toolkit"
 	"github.com/hechh/library/toolkit/xlsx2code"
 	"github.com/hechh/library/toolkit/xlsx2data"
 	"github.com/hechh/library/toolkit/xlsx2proto"
@@ -43,12 +44,11 @@ func main() {
 			panic(err)
 		}
 	case "data":
-		// 加载 proto文件
-		parse, err := xlsx2data.NewMsgParser(pkgname, desc)
-		if err != nil {
+		if err := toolkit.Init(pkgname, desc); err != nil {
 			panic(err)
 		}
 		// 解析 xlsx 文件
+		parse := xlsx2data.NewMsgParser()
 		for _, filename := range files {
 			if err := parse.ParseFile(filename); err != nil {
 				panic(err)

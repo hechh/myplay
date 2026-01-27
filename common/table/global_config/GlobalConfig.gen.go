@@ -8,9 +8,9 @@ import (
 	pb "myplay/common/pb"
 	"sync/atomic"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/hechh/library/fwatcher"
 	"google.golang.org/protobuf/encoding/prototext"
+	"google.golang.org/protobuf/proto"
 )
 
 const (

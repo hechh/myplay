@@ -1,8 +1,4 @@
 
-/*
-* 本代码由cfgtool工具生成，请勿手动修改
-*/
-
 syntax = "proto3";
 
 package myplay;

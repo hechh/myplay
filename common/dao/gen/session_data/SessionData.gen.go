@@ -9,10 +9,10 @@ import (
 	pb "myplay/common/pb"
 	"time"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/hechh/library/myredis"
 	"github.com/hechh/library/uerror"
 	"github.com/spf13/cast"
+	"google.golang.org/protobuf/proto"
 )
 
 func GetKey(Uid uint64) string {

@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/hechh/framework/handler"
 	"github.com/hechh/framework/packet"
 	"github.com/hechh/library/uerror"
 	"github.com/spf13/cast"
+	"google.golang.org/protobuf/proto"
 )
 
 func Init(cfg string, nodeId uint32) error {

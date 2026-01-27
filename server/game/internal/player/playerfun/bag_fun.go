@@ -4,7 +4,7 @@ import (
 	"myplay/common/pb"
 	"myplay/server/game/internal/player/domain"
 
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 )
 
 type BagFun struct {
