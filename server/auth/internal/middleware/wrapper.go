@@ -7,7 +7,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/hechh/framework"
-	"github.com/hechh/framework/packet"
 	"github.com/hechh/library/uerror"
 )
 
@@ -30,9 +29,9 @@ func Wrapper[R any, T any](f Handler[R, T]) gin.HandlerFunc {
 		if err := f(c, req, rsp); err != nil {
 			switch vv := err.(type) {
 			case *uerror.UError:
-				irsp.SetRspHead(&packet.RspHead{Code: vv.GetCode(), Msg: vv.GetMsg()})
+				irsp.SetRspHead(vv.GetCode(), vv.GetMsg())
 			default:
-				irsp.SetRspHead(&packet.RspHead{Code: -1, Msg: vv.Error()})
+				irsp.SetRspHead(-1, vv.Error())
 			}
 		}
 		c.JSON(http.StatusOK, rsp)
