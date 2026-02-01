@@ -19,9 +19,9 @@ type Player struct {
 }
 
 func init() {
-	handler.RegisterCmd((*Player).Login)
-	handler.RegisterCmd((*Player).Relogin)
-	handler.RegisterCmd((*Player).Heart)
+	handler.RegisterP2(framework.PROTO, (*Player).Login)
+	handler.RegisterP2(framework.PROTO, (*Player).Relogin)
+	handler.RegisterP2(framework.PROTO, (*Player).Heart)
 	handler.Register0(framework.EMPTY, (*Player).OnTick)
 }
 

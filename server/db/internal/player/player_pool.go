@@ -18,7 +18,7 @@ type PlayerPool struct {
 }
 
 func init() {
-	handler.RegisterCmd((*PlayerPool).Login)
+	handler.RegisterP2(framework.PROTO, (*PlayerPool).Login)
 	handler.Register0(framework.GOB, (*PlayerPool).Get)
 	handler.RegisterP1(framework.PROTO, (*PlayerPool).Save)
 }

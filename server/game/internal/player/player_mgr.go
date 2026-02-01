@@ -16,7 +16,7 @@ type PlayerMgr struct {
 }
 
 func init() {
-	handler.RegisterCmd((*PlayerMgr).Login)
+	handler.RegisterP2(framework.PROTO, (*PlayerMgr).Login)
 }
 
 func (d *PlayerMgr) Init() {

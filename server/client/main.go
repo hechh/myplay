@@ -29,10 +29,10 @@ var (
 )
 
 func main() {
-	var cfg, mode string
+	var cfg string
 	var nodeId int
 	var uid int64
-	flag.StringVar(&mode, "mode", "debug", "启动模式")
+	flag.IntVar(&framework.RunMode, "mode", 1, "启动模式")
 	flag.StringVar(&cfg, "config", "config.yaml", "游戏配置文件")
 	flag.IntVar(&nodeId, "id", 1, "服务ID")
 	flag.Int64Var(&uid, "uid", 0, "开始uid")
@@ -42,7 +42,7 @@ func main() {
 	util.Must(config.Load(cfg, int32(nodeId)))
 
 	// 初始化日志库
-	mlog.Init(mode, config.NodeCfg.LogLevel, config.NodeCfg.LogPath, framework.GetSelfName())
+	mlog.Init(framework.RunMode, config.NodeCfg.LogLevel, config.NodeCfg.LogPath, framework.GetSelfName())
 	async.Except(mlog.Fatalf)
 
 	mlog.Infof("初始化配置...")

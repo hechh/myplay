@@ -27,7 +27,7 @@ type PlayerMgr struct {
 func init() {
 	handler.Register0(framework.EMPTY, (*PlayerMgr).Remove)
 	handler.Register0(framework.EMPTY, (*PlayerMgr).OnTick)
-	handler.RegisterCmd((*PlayerMgr).Login)
+	handler.RegisterP2(framework.PROTO, (*PlayerMgr).Login)
 	handler.RegisterP1(framework.PROTO, (*PlayerMgr).Load)
 	handler.RegisterP1(framework.PROTO, (*PlayerMgr).Update)
 }

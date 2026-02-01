@@ -27,7 +27,7 @@ type PlayerMgr struct {
 
 func init() {
 	handler.Register0(framework.EMPTY, (*PlayerMgr).Remove) // 删除玩家
-	handler.RegisterCmd((*PlayerMgr).Login)                 // 登录
+	handler.RegisterP2(framework.PROTO, (*PlayerMgr).Login) // 登录
 }
 
 func (d *PlayerMgr) Init() {

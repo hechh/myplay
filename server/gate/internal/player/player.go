@@ -26,8 +26,8 @@ type Player struct {
 }
 
 func init() {
-	handler.RegisterCmd((*Player).Login)                        // 登录
-	handler.RegisterCmd((*Player).LoginSuccess)                 // 登录成功
+	handler.RegisterP2(framework.PROTO, (*Player).Login)        // 登录
+	handler.RegisterP2(framework.PROTO, (*Player).LoginSuccess) // 登录成功
 	handler.RegisterP1(framework.PROTO, (*Player).Kick)         // 剔除玩家
 	handler.RegisterV1(framework.BYTES, (*Player).Handle)       // 消息处理
 	handler.RegisterV1(framework.BYTES, (*Player).SendToClient) // 消息处理
