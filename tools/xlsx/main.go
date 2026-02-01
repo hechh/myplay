@@ -33,14 +33,14 @@ func main() {
 	switch action {
 	case "proto":
 		// 解析文件
-		p := xlsx2proto.NewMsgParser(pkgname, option, dst)
+		p := xlsx2proto.NewMsgParser()
 		for _, filename := range files {
 			if err := p.ParseFile(filename); err != nil {
 				panic(err)
 			}
 		}
 		// 生成文件
-		if err := p.Gen(); err != nil {
+		if err := p.Gen(pkgname, option, dst); err != nil {
 			panic(err)
 		}
 	case "data":

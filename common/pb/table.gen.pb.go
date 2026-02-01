@@ -23,8 +23,8 @@ const (
 
 type GlobalConfig struct {
 	state         protoimpl.MessageState `xorm:"-"` 
-	UidBeginValue uint64                 `protobuf:"varint,1,opt,name=UidBeginValue,proto3" json:"UidBeginValue,omitempty"` // uid开始值
-	GateUrl       string                 `protobuf:"bytes,2,opt,name=GateUrl,proto3" json:"GateUrl,omitempty"`              // 游戏url地址
+	UidBeginValue uint64                 `protobuf:"varint,1,opt,name=UidBeginValue,proto3" json:"UidBeginValue,omitempty"` // $uid开始值
+	GateUrl       string                 `protobuf:"bytes,2,opt,name=GateUrl,proto3" json:"GateUrl,omitempty"`              // $游戏url地址
 	unknownFields protoimpl.UnknownFields `xorm:"-"`
 	sizeCache     protoimpl.SizeCache `xorm:"-"`
 }

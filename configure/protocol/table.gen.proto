@@ -3,14 +3,15 @@ syntax = "proto3";
 
 package myplay;
 
-option  go_package = "./pb";
-	
+option go_package = "./pb";
+
+
 message GlobalConfig {
-	uint64 UidBeginValue = 1;	// uid开始值
-	string GateUrl = 2;	// 游戏url地址
+	uint64 UidBeginValue = 1; // $uid开始值
+	string GateUrl = 2; // $游戏url地址
 }
 
 message GlobalConfigAry {
-repeated GlobalConfig Ary = 1;
+	repeated GlobalConfig Ary = 1;
 }
 

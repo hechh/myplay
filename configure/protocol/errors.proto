@@ -5,12 +5,12 @@ package myplay;
 option go_package = "./pb";
 
 enum ErrorCode {
-  Success = 0;  // 成功
-  Failed  = 1;  // 失败
-  Unknown = 2;  // 位置错误
+  Success = 0; // 成功
+  Failed  = 1; // 失败
+  Unknown = 2; // 位置错误
 
-  TableNotFound      = 100;  // table不存在
-  RedisFailed        = 101;  // redis错误
+  TableNotFound      = 100; // table不存在
+  RedisFailed        = 101; // redis错误
   MysqlFailed        = 102;
   RpcNotRegistered   = 103;
   ServiceHasStopped  = 104;
