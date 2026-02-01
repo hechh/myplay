@@ -22,7 +22,7 @@ type ClientConfig struct {
 	Nats   *yaml.NatsConfig           `yaml:"nats"`
 	Common *yaml.CommonConfig         `yaml:"common"`
 	Server map[int32]*yaml.NodeConfig `yaml:"client"`
-	Gates  map[int32]*yaml.NodeConfig `yaml:"gate"`
+	Gates  map[int32]*yaml.NodeConfig `yaml:"db"`
 }
 
 func Load(cfg string, nodeId int32) error {
