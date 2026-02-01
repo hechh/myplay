@@ -20,7 +20,7 @@ func TestMain(m *testing.M) {
 	util.Must(config.Load("../../../configure/env/develop/config.yaml", 1))
 
 	// 初始化日志库
-	mlog.Init("debug", config.NodeCfg.LogLevel, config.NodeCfg.LogPath, framework.GetSelf().Name)
+	mlog.Init(1, config.NodeCfg.LogLevel, config.NodeCfg.LogPath, framework.GetSelf().Name)
 	async.Except(mlog.Fatalf)
 
 	// 初始化配置

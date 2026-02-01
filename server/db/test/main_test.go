@@ -21,7 +21,6 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	mode := "debug"
 	nodeId := 1
 	cfg := "../../../configure/env/develop/config.yaml"
 
@@ -29,7 +28,7 @@ func TestMain(m *testing.M) {
 	util.Must(config.Load(cfg, int32(nodeId)))
 
 	// 初始化日志库
-	mlog.Init(mode, config.NodeCfg.LogLevel, config.NodeCfg.LogPath, framework.GetSelfName())
+	mlog.Init(1, config.NodeCfg.LogLevel, config.NodeCfg.LogPath, framework.GetSelfName())
 	async.Except(mlog.Fatalf)
 
 	mlog.Infof("初始化配置...")
