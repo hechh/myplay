@@ -1,0 +1,20 @@
+#!/bin/bash
+
+work_path=$(cd `dirname $0`; pwd)
+bin_file=${work_path}/${1}
+monitor_file=${work_path}/log/${1}${3}_monitor.log
+
+if [ $# -lt 4 ]; then
+    echo "start.sh [服务] [yaml配置] [节点id] [启动模式]"
+    exit 1
+fi
+
+if [ ! -x ${bin_file} ]; then
+    echo "${bin_file}不是可执行文件"
+    exit 1
+fi
+
+mkdir -p ${work_path}/log
+nohup ${bin_file} -mode=${4} -config=${2} -id=${3} >>${monitor_file} 2>&1 &
+echo "启动服务成功：${bin_file} -mode=${4} -config=${2} -id=${3}"
+exit 0
