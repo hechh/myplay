@@ -6,7 +6,4 @@
 	path = library
 	url = git@github.com:hechh/library.git
 	branch = develop
-[submodule "tools"]
-	path = tools
-	url = git@github.com:hechh/tools.git
-	branch = develop
+
