@@ -25,7 +25,7 @@ func GenToken(data *pb.SessionData, secret string) (string, error) {
 	now := time.Now()
 	item := &SessionToken{
 		RegisteredClaims: jwt.RegisteredClaims{
-			Subject:   "poker_server/auth",
+			Subject:   "myplay/auth",
 			ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 			NotBefore: jwt.NewNumericDate(now),
 			IssuedAt:  jwt.NewNumericDate(now),
