@@ -55,7 +55,7 @@ func main() {
 	gc.Init()
 
 	mlog.Infof("初始化路由...")
-	router.Init(config.GameCfg.Router)
+	router.Init(config.GameCfg.Router, false)
 
 	mlog.Infof("初始化集群...")
 	util.Must(cluster.Init(config.GameCfg.Cluster))

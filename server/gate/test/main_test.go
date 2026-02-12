@@ -54,7 +54,7 @@ func TestGate(t *testing.T) {
 	gc.Init()
 
 	mlog.Infof("初始化路由...")
-	router.Init(config.GateCfg.Router)
+	router.Init(config.GateCfg.Router, false)
 
 	mlog.Infof("初始化集群...")
 	util.Must(cluster.Init(config.GateCfg.Cluster))

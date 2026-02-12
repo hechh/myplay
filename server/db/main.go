@@ -48,7 +48,7 @@ func main() {
 	mlog.Infof("初始化垃圾回收...")
 	gc.Init()
 	mlog.Infof("初始化路由...")
-	router.Init(config.DbCfg.Router)
+	router.Init(config.DbCfg.Router, false)
 
 	mlog.Infof("初始化集群...")
 	util.Must(cluster.Init(config.DbCfg.Cluster))
