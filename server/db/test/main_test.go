@@ -1,7 +1,6 @@
 package test
 
 import (
-	"myplay/common/dao/router_data"
 	"myplay/message"
 	"myplay/server/db/internal/config"
 	"path/filepath"
@@ -47,10 +46,10 @@ func TestMain(m *testing.M) {
 	gc.Init()
 
 	mlog.Infof("初始化路由...")
-	router.Init(config.NodeCfg, router_data.SaveRouter)
+	router.Init(config.DbCfg.Router)
 
 	mlog.Infof("初始化集群...")
-	util.Must(cluster.Init(config.DbCfg.Etcd))
+	util.Must(cluster.Init(config.DbCfg.Cluster))
 
 	mlog.Infof("初始化消息队列...")
 	util.Must(bus.Init(config.DbCfg.Nats))

@@ -2,7 +2,6 @@ package player
 
 import (
 	"myplay/common/dao/login_lock"
-	"myplay/common/dao/router_data"
 	"myplay/common/pb"
 	"myplay/common/token"
 	"myplay/server/gate/internal/config"
@@ -99,14 +98,8 @@ func (d *PlayerMgr) Login(ctx framework.IContext, req *pb.LoginReq, rsp *pb.Logi
 		return err
 	}
 
-	// 加载已经存在的路由缓存
-	str, err := router_data.GetRouter(tok.Uid)
-	if err != nil {
-		return err
-	}
-	if err := router.Add(str); err != nil {
-		return err
-	}
+	// 确保路由项已创建
+	router.GetOrNew(uint32(pb.NodeType_Gate), tok.Uid)
 
 	// 创建新玩家
 	usr := &Player{}

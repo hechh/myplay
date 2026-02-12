@@ -10,21 +10,21 @@ import "database.proto";
 
 // 认证请求
 message AuthReq {
-  string    name       = 1; // 玩家账号
-  string    email      = 2; // 邮箱
-  string    phone      = 3; // 手机号
-  string    password   = 4; // 密码
-  Platform  platform   = 5; // 平台
-  LoginType login_type = 6; // 登录类型
-  string    ip         = 7; // ip地址
-  string    device_id  = 8; // 设备id
-  string    version    = 9; // 版本号
+  string    name       = 1;  // 玩家账号
+  string    email      = 2;  // 邮箱
+  string    phone      = 3;  // 手机号
+  string    password   = 4;  // 密码
+  Platform  platform   = 5;  // 平台
+  LoginType login_type = 6;  // 登录类型
+  string    ip         = 7;  // ip地址
+  string    device_id  = 8;  // 设备id
+  string    version    = 9;  // 版本号
 }
 
 message AuthRsp {
   RspHead head  = 1;
-  uint64  uid   = 2; // 玩家uid
-  string  url   = 3; // 游戏服url
+  uint64  uid   = 2;  // 玩家uid
+  string  url   = 3;  // 游戏服url
   string  token = 4;
 }
 
@@ -47,12 +47,12 @@ message KickNotify {
 
 // 心跳协议
 message HeartReq {
-  int64 begin_time = 1; // 请求时间
+  int64 begin_time = 1;  // 请求时间
 }
 
 message HeartRsp {
-  RspHead head       = 1; // 协议头
-  int64   utc        = 2; // UTC时区
-  int64   begin_time = 3; // 请求时间
-  int64   end_time   = 4; // 响应时间
+  RspHead head       = 1;  // 协议头
+  int64   utc        = 2;  // UTC时区
+  int64   begin_time = 3;  // 请求时间
+  int64   end_time   = 4;  // 响应时间
 }

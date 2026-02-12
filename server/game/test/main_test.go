@@ -1,7 +1,6 @@
 package test
 
 import (
-	"myplay/common/dao/router_data"
 	"myplay/common/pb"
 	"myplay/server/game/internal/config"
 	"sync"
@@ -52,10 +51,10 @@ func TestGate(t *testing.T) {
 	gc.Init()
 
 	mlog.Infof("初始化路由...")
-	router.Init(config.NodeCfg, router_data.SaveRouter)
+	router.Init(config.GameCfg.Router)
 
 	mlog.Infof("初始化集群...")
-	util.Must(cluster.Init(config.GameCfg.Etcd))
+	util.Must(cluster.Init(config.GameCfg.Cluster))
 
 	mlog.Infof("初始化消息队列...")
 	util.Must(bus.Init(config.GameCfg.Nats))

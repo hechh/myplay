@@ -16,12 +16,13 @@ var (
 )
 
 type GateConfig struct {
-	Mysql  map[int32]*yaml.DbConfig   `yaml:"mysql"`
-	Redis  map[int32]*yaml.DbConfig   `yaml:"redis"`
-	Etcd   *yaml.EtcdConfig           `yaml:"etcd"`
-	Nats   *yaml.NatsConfig           `yaml:"nats"`
-	Common *yaml.CommonConfig         `yaml:"common"`
-	Server map[int32]*yaml.NodeConfig `yaml:"gate"`
+	Mysql   map[int32]*yaml.DbConfig     `yaml:"mysql"`
+	Redis   map[int32]*yaml.DbConfig     `yaml:"redis"`
+	Nats    *yaml.NatsConfig             `yaml:"nats"`
+	Router  *yaml.RouterConfig          `yaml:"router"`
+	Cluster *yaml.ClusterConfig         `yaml:"cluster"`
+	Common  *yaml.CommonConfig           `yaml:"common"`
+	Server  map[int32]*yaml.NodeConfig   `yaml:"gate"`
 }
 
 func Load(cfg string, nodeId int32) error {

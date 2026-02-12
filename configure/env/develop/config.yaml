@@ -15,14 +15,25 @@ redis:
     password: 123456
     host: localhost:16379
 
-etcd:
+nats:
+  topic: myplay/local/nats
+  endpoints: localhost:14222
+
+cluster:
+  size: 32
+  expire: 25
   topic: myplay/local/etcd
   endpoints:
     - http://localhost:12379
 
-nats:
-  topic: myplay/local/nats
-  endpoints: localhost:14222
+router:
+  size: 32
+  expire: 25
+  redis_interval: 10
+  redis_dbname: myplay
+  topic: myplay/local/stub
+  endpoints:
+    - http://localhost:12379
 
 common:
   mode: debug #debug develop release
@@ -31,11 +42,8 @@ common:
   token_key: gH7%kL9!qW2#sD4*FpV6&nZ8@xJ0^yT1
   aes_key: 1234567890123456
 
-
 auth:
   1:
-    router_expire: 1800
-    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
@@ -43,15 +51,11 @@ auth:
 
 gate:
   1:
-    router_expire: 1800
-    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
     port: 10101
   2:
-    router_expire: 1800
-    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
@@ -59,8 +63,6 @@ gate:
   
 client:
   1:
-    router_expire: 1800
-    discovery_expire: 20
     log_level: trace # info, debug, warn, error, fatal
     log_path: ./log
     ip: localhost
@@ -68,24 +70,17 @@ client:
 
 db:
   1:
-    router_expire: 1800
-    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
   2:
     router_expire: 1800
-    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
 
 game:
   1:
-    router_expire: 1800
-    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log
   2:
-    router_expire: 1800
-    discovery_expire: 20
     log_level: trace  # info, debug, warn, error, fatal
     log_path: ./log

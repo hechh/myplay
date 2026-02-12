@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"myplay/common/dao/router_data"
 	"myplay/common/pb"
 	"myplay/message"
 	"myplay/server/db/internal/config"
@@ -49,9 +48,10 @@ func main() {
 	mlog.Infof("初始化垃圾回收...")
 	gc.Init()
 	mlog.Infof("初始化路由...")
-	router.Init(config.NodeCfg, router_data.SaveRouter)
+	router.Init(config.DbCfg.Router)
+
 	mlog.Infof("初始化集群...")
-	util.Must(cluster.Init(config.DbCfg.Etcd))
+	util.Must(cluster.Init(config.DbCfg.Cluster))
 
 	mlog.Infof("初始化消息队列...")
 	util.Must(bus.Init(config.DbCfg.Nats))
